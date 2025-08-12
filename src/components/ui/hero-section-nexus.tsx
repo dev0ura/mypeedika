@@ -646,21 +646,16 @@ const InteractiveHero: React.FC = () => {
                 </div>
 
                 <div className="hidden md:flex items-center justify-center flex-grow space-x-6 lg:space-x-8 px-4">
-                    <NavLink href="#">Product</NavLink>
-                    <NavLink href="#">Customers</NavLink>
-
                     <div
                         className="relative"
-                        onMouseEnter={() => setOpenDropdown('frontends')}
+                        onMouseEnter={() => setOpenDropdown('products')}
                         onMouseLeave={() => setOpenDropdown(null)}
                     >
-                        <NavLink href="#" hasDropdown>Frontends</NavLink>
-                        <DropdownMenu isOpen={openDropdown === 'frontends'}>
+                        <NavLink href="#" hasDropdown>Products</NavLink>
+                        <DropdownMenu isOpen={openDropdown === 'products'}>
                             <DropdownItem href="#">Web Frontend</DropdownItem>
                             <DropdownItem href="#">Mobile App</DropdownItem>
-                            <DropdownItem href="#">Chat Commerce</DropdownItem>
-                            <DropdownItem href="#">WhatsApp Integration</DropdownItem>
-                            <DropdownItem href="#">Instagram Integration</DropdownItem>
+                            <DropdownItem href="#">Atengic Chat</DropdownItem>
                         </DropdownMenu>
                     </div>
 
@@ -678,13 +673,10 @@ const InteractiveHero: React.FC = () => {
                         </DropdownMenu>
                     </div>
 
-                    <NavLink href="#">Docs</NavLink>
                     <NavLink href="#">Pricing</NavLink>
                 </div>
 
                 <div className="flex items-center flex-shrink-0 space-x-4 lg:space-x-6">
-                    <NavLink href="#" className="hidden md:inline-block">Sign in</NavLink>
-
                     <motion.a
                         href="#"
                         className="bg-[#0CF2A0] text-[#111111] px-4 py-[6px] rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors duration-200 whitespace-nowrap shadow-sm hover:shadow-md"
@@ -714,14 +706,9 @@ const InteractiveHero: React.FC = () => {
                         className="md:hidden absolute top-full left-0 right-0 bg-[#111111]/95 backdrop-blur-sm shadow-lg py-4 border-t border-gray-800/50"
                     >
                         <div className="flex flex-col items-center space-y-4 px-6">
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Product</NavLink>
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Customers</NavLink>
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Frontends</NavLink>
+                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Products</NavLink>
                             <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Resources</NavLink>
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Docs</NavLink>
                             <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Pricing</NavLink>
-                            <hr className="w-full border-t border-gray-700/50 my-2"/>
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Sign in</NavLink>
                         </div>
                     </motion.div>
                 )}
