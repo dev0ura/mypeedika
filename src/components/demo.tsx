@@ -1,6 +1,7 @@
+import React from 'react';
 import InteractiveHero from "@/components/ui/hero-section-nexus";
 
-export default function Home() {
+export function HomePage() {
   return (
     <div>
       <InteractiveHero />
