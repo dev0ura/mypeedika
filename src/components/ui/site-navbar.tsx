@@ -121,7 +121,7 @@ export const SiteNavbar: React.FC = () => {
       initial="top"
       animate={isScrolled ? "scrolled" : "top"}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="px-6 w-full md:px-10 lg:px-16 sticky top-0 z-30 backdrop-blur-md border-b bg-white/80 dark:bg-[#111111]/80 border-gray-200/50 dark:border-gray-700/50"
+      className="px-6 w-full md:px-10 lg:px-16 sticky top-0 z-30 backdrop-blur-md border-b bg-[#F3F4F6]/80 dark:bg-[#111111]/80 border-gray-200/50 dark:border-gray-700/50"
     >
       <nav className="flex justify-between items-center max-w-screen-xl mx-auto h-[70px]">
         <div className="flex items-center flex-shrink-0">

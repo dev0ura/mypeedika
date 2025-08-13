@@ -19,8 +19,7 @@ const Footer = () => {
               <span className="text-2xl font-bold text-gray-900 dark:text-white ml-3">myPeedika</span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-md mb-6">
-              Complete e-commerce backend platform with flexible frontend options. 
-              Build your online store with Web, Mobile App, or Chat-based commerce on WhatsApp & Instagram.
+            myPeedika lets you sell directly on Instagram, WhatsApp, or your store. Our AI chats in your customer’s language, answers questions, and completes checkout — all in one place, backed by a powerful commerce backend where you can manage everything.
             </p>
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm">
               <Mail className="h-4 w-4" />

@@ -606,13 +606,13 @@ const InteractiveHero: React.FC = () => {
     };
 
   return (
-    <div className="pt-[100px] relative bg-white dark:bg-[#111111] text-gray-700 dark:text-gray-300 min-h-screen flex flex-col overflow-x-hidden">
+    <div className="pt-[100px] relative bg-[#F3F4F6] dark:bg-[#111111] text-gray-700 dark:text-gray-300 min-h-screen flex flex-col overflow-x-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none opacity-80" />
         <div className="absolute inset-0 z-1 pointer-events-none dark:block hidden" style={{
             background: 'linear-gradient(to bottom, transparent 0%, #111111 90%), radial-gradient(ellipse at center, transparent 40%, #111111 95%)'
         }}></div>
         <div className="absolute inset-0 z-1 pointer-events-none dark:hidden block" style={{
-            background: 'linear-gradient(to bottom, transparent 0%, white 90%), radial-gradient(ellipse at center, transparent 40%, white 95%)'
+            background: 'linear-gradient(to bottom, transparent 0%, #F3F4F6 90%), radial-gradient(ellipse at center, transparent 40%, #F3F4F6 95%)'
         }}></div>
 
         {/* Navbar moved to SiteNavbar and rendered in page.tsx */}

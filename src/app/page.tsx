@@ -10,8 +10,8 @@ export default function Home() {
     <div>
       <SiteNavbar />
       <InteractiveHero />
-      <Products />
       <Features />
+      <Products />
       <Connect />
       <Footer />
     </div>
