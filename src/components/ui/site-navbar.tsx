@@ -134,6 +134,7 @@ export const SiteNavbar: React.FC = () => {
         </div>
 
         <div className="hidden md:flex items-center justify-center flex-grow space-x-6 lg:space-x-8 px-4">
+        <NavLink href="/">Home</NavLink>
           <div className="relative" onMouseEnter={() => setOpenDropdown('products')} onMouseLeave={() => setOpenDropdown(null)}>
             <NavLink href="#" hasDropdown>Products</NavLink>
             <DropdownMenu isOpen={openDropdown === 'products'}>
@@ -151,7 +152,7 @@ export const SiteNavbar: React.FC = () => {
               <DropdownItem href="#">API Reference</DropdownItem>
             </DropdownMenu>
           </div>
-          <NavLink href="#">Pricing</NavLink>
+          <NavLink href="/pricing">Pricing</NavLink>
         </div>
 
         <div className="flex items-center flex-shrink-0 space-x-4 lg:space-x-6">
@@ -175,7 +176,7 @@ export const SiteNavbar: React.FC = () => {
             <div className="flex flex-col items-center space-y-4 px-6">
               <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Products</NavLink>
               <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Resources</NavLink>
-              <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Pricing</NavLink>
+              <NavLink href="/pricing" onClick={() => setIsMobileMenuOpen(false)}>Pricing</NavLink>
             </div>
           </motion.div>
         )}
