@@ -374,10 +374,10 @@ const InteractiveHero: React.FC = () => {
    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
    const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
-   const { scrollY } = useScroll();
-   useMotionValueEvent(scrollY, "change", (latest) => {
-       setIsScrolled(latest > 10);
-   });
+    const { scrollY } = useScroll();
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        setIsScrolled(latest > 10);
+    });
 
    const dotsRef = useRef<Dot[]>([]);
    const gridRef = useRef<Record<string, number[]>>({});
@@ -569,22 +569,9 @@ const InteractiveHero: React.FC = () => {
        return () => { document.body.style.overflow = 'unset'; };
    }, [isMobileMenuOpen]);
 
-   const headerVariants: Variants = {
-       top: {
-           position: 'fixed',
-           boxShadow: 'none',
-       },
-       scrolled: {
-           boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-           position: 'fixed'
-       }
-   };
+    // Header moved to separate component
 
-   const mobileMenuVariants: Variants = {
-       hidden: { opacity: 0, y: -20 },
-       visible: { opacity: 1, y: 0, transition: { duration: 0.2, ease: "easeOut" } },
-       exit: { opacity: 0, y: -20, transition: { duration: 0.15, ease: "easeIn" } }
-   };
+    // Mobile menu moved to separate component
 
     const contentDelay = 0.3;
     const itemDelayIncrement = 0.1;
@@ -628,94 +615,7 @@ const InteractiveHero: React.FC = () => {
             background: 'linear-gradient(to bottom, transparent 0%, white 90%), radial-gradient(ellipse at center, transparent 40%, white 95%)'
         }}></div>
 
-        <motion.header
-            variants={headerVariants}
-            initial="top"
-            animate={isScrolled ? "scrolled" : "top"}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="px-6 w-full md:px-10 lg:px-16 sticky top-0 z-30 backdrop-blur-md border-b bg-white/80 dark:bg-[#111111]/80 border-gray-200/50 dark:border-gray-700/50"
-        >
-            <nav className="flex justify-between items-center max-w-screen-xl mx-auto h-[70px]">
-                <div className="flex items-center flex-shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M2 17L12 22L22 17" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M2 12L12 17L22 12" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                    <span className="text-xl font-bold text-gray-900 dark:text-white ml-2">Thepeedika</span>
-                </div>
-
-                <div className="hidden md:flex items-center justify-center flex-grow space-x-6 lg:space-x-8 px-4">
-                    <div
-                        className="relative"
-                        onMouseEnter={() => setOpenDropdown('products')}
-                        onMouseLeave={() => setOpenDropdown(null)}
-                    >
-                        <NavLink href="#" hasDropdown>Products</NavLink>
-                        <DropdownMenu isOpen={openDropdown === 'products'}>
-                            <DropdownItem href="#">Web Frontend</DropdownItem>
-                            <DropdownItem href="#">Mobile App</DropdownItem>
-                            <DropdownItem href="#">Atengic Chat</DropdownItem>
-                        </DropdownMenu>
-                    </div>
-
-                    <div
-                        className="relative"
-                        onMouseEnter={() => setOpenDropdown('resources')}
-                        onMouseLeave={() => setOpenDropdown(null)}
-                    >
-                        <NavLink href="#" hasDropdown>Resources</NavLink>
-                        <DropdownMenu isOpen={openDropdown === 'resources'}>
-                            <DropdownItem href="#" icon={<ExternalLinkIcon/>}>Blog</DropdownItem>
-                            <DropdownItem href="#">Guides</DropdownItem>
-                            <DropdownItem href="#">Help Center</DropdownItem>
-                            <DropdownItem href="#">API Reference</DropdownItem>
-                        </DropdownMenu>
-                    </div>
-
-                    <NavLink href="#">Pricing</NavLink>
-                </div>
-
-                <div className="flex items-center flex-shrink-0 space-x-4 lg:space-x-6">
-                    <ThemeToggle />
-                    
-                    <motion.a
-                        href="#"
-                        className="bg-[#0CF2A0] text-[#111111] px-4 py-[6px] rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors duration-200 whitespace-nowrap shadow-sm hover:shadow-md"
-                        whileHover={{ scale: 1.03, y: -1 }}
-                        whileTap={{ scale: 0.97 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                    >
-                        Start Free Trial
-                    </motion.a>
-
-                    <motion.button
-                        className="md:hidden text-gray-300 hover:text-white z-50"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        aria-label="Toggle menu"
-                        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
-                    >
-                        {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-                    </motion.button>
-                </div>
-            </nav>
-
-            <AnimatePresence>
-                {isMobileMenuOpen && (
-                    <motion.div
-                        key="mobile-menu"
-                        variants={mobileMenuVariants} initial="hidden" animate="visible" exit="exit"
-                        className="md:hidden absolute top-full left-0 right-0 bg-[#111111]/95 backdrop-blur-sm shadow-lg py-4 border-t border-gray-800/50"
-                    >
-                        <div className="flex flex-col items-center space-y-4 px-6">
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Products</NavLink>
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Resources</NavLink>
-                            <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Pricing</NavLink>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </motion.header>
+        {/* Navbar moved to SiteNavbar and rendered in page.tsx */}
 
         <main className="flex-grow flex flex-col items-center justify-center text-center px-4 pt-8 pb-16 relative z-10">
 
@@ -725,7 +625,7 @@ const InteractiveHero: React.FC = () => {
                 animate="visible"
                 className="mb-6"
             >
-                <ShinyText text="Introducing Atengic E-commerce Platform" className="bg-[#1a1a1a] border border-gray-700 text-[#0CF2A0] px-4 py-1 rounded-full text-xs sm:text-sm font-medium cursor-pointer hover:border-[#0CF2A0]/50 transition-colors" />
+                <ShinyText text="Introducing the future of selling from anywhere" className="bg-[#1a1a1a] border border-gray-700 text-[#0CF2A0] px-4 py-1 rounded-full text-xs sm:text-sm font-medium cursor-pointer hover:border-[#0CF2A0]/50 transition-colors" />
             </motion.div>
 
             <motion.h1
@@ -759,7 +659,7 @@ const InteractiveHero: React.FC = () => {
                 animate="visible"
                 className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8"
             >
-                Sell products or services directly from your DM's whether it's WhatsApp, Instagram or any other Messengers.
+               Sell products or services directly from your DMs — whether it’s WhatsApp, Instagram, or any messenger. One backend. Unlimited reach.
             </motion.p>
 
             <motion.form
