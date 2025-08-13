@@ -3,6 +3,7 @@ import { Features } from "@/components/ui/features-4";
 import Products from "@/components/ui/products";
 import Footer from "@/components/ui/footer";
 import SiteNavbar from "@/components/ui/site-navbar";
+import { Connect } from "@/components/ui/connect";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <InteractiveHero />
       <Products />
       <Features />
+      <Connect />
       <Footer />
     </div>
   );
