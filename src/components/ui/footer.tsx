@@ -16,7 +16,7 @@ const Footer = () => {
                 <path d="M2 17L12 22L22 17" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M2 12L12 17L22 12" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span className="text-2xl font-bold text-gray-900 dark:text-white ml-3">Thepeedika</span>
+              <span className="text-2xl font-bold text-gray-900 dark:text-white ml-3">myPeedika</span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-md mb-6">
               Complete e-commerce backend platform with flexible frontend options. 
@@ -24,8 +24,8 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm">
               <Mail className="h-4 w-4" />
-              <a href="mailto:hello@thepeedika.com" className="hover:text-[#0CF2A0] transition-colors">
-                hello@thepeedika.com
+              <a href="mailto:hello@myPeedika.com" className="hover:text-[#0CF2A0] transition-colors">
+                hello@myPeedika.com
               </a>
             </div>
           </div>
@@ -112,7 +112,7 @@ const Footer = () => {
         <div className="border-t border-gray-200 dark:border-gray-800/50 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-gray-600 dark:text-gray-400 text-sm">
-              © 2024 Thepeedika. All rights reserved.
+              © 2024 myPeedika. All rights reserved.
             </div>
             
             <div className="flex items-center gap-6">

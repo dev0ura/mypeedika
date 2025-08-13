@@ -111,7 +111,7 @@ export function Connect() {
                         />
                       </svg>
                       <span className="relative -top-1 left-3 rounded-3xl bg-[rgba(12,242,160,0.15)] border border-[rgba(12,242,160,0.35)] px-2 py-1 text-xs text-[#0CF2A0]">
-                      thePeedika
+                      myPeedika
                       </span>
                     </div>
                   </div>
@@ -129,7 +129,7 @@ export function Connect() {
                     </p>
                     <div className="flex flex-wrap gap-2">
                       <Link
-                        href={"https://cal.com/aliimam/designali"}
+                        href={"https://cal.com/rabeeh0ta/mypeedika-demo"}
                         target="_blank"
                       >
                         <Button>Book a call</Button>

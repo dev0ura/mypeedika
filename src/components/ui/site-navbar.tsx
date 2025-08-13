@@ -130,7 +130,7 @@ export const SiteNavbar: React.FC = () => {
             <path d="M2 17L12 22L22 17" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M2 12L12 17L22 12" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          <span className="text-xl font-bold text-gray-900 dark:text-white ml-2">thePeedika</span>
+          <span className="text-xl font-bold text-gray-900 dark:text-white ml-2">myPeedika</span>
         </div>
 
         <div className="hidden md:flex items-center justify-center flex-grow space-x-6 lg:space-x-8 px-4">

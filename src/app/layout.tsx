@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Thepeedika - Complete E-commerce Platform",
+  title: "myPeedika - Complete E-commerce Platform",
   description: "Build your online store with Web, Mobile App, or Chat-based commerce on WhatsApp & Instagram. One powerful backend, unlimited possibilities.",
 };
 
