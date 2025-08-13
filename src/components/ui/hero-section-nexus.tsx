@@ -21,10 +21,11 @@ import {
     type Transition,
     type VariantLabels,
     type Target,
-    type AnimationControls,
     type TargetAndTransition,
     type Variants,
 } from 'framer-motion';
+import { ThemeToggle } from './theme-toggle';
+import { SiRazorpay, SiStripe, SiPaytm, SiPhonepe } from 'react-icons/si';
 
 function cn(...classes: (string | undefined | null | boolean)[]): string {
   return classes.filter(Boolean).join(" ");
@@ -45,7 +46,7 @@ interface RotatingTextProps
   texts: string[];
   transition?: Transition;
   initial?: boolean | Target | VariantLabels;
-  animate?: boolean | VariantLabels | AnimationControls | TargetAndTransition;
+  animate?: boolean | VariantLabels | TargetAndTransition;
   exit?: Target | VariantLabels;
   animatePresenceMode?: "sync" | "wait";
   animatePresenceInitial?: boolean;
@@ -300,7 +301,7 @@ const NavLink: React.FC<NavLinkProps> = ({ href = "#", children, hasDropdown = f
    <motion.a
      href={href}
      onClick={onClick}
-     className={cn("relative group text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 flex items-center py-1", className)}
+     className={cn("relative group text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 flex items-center py-1", className)}
      whileHover="hover"
    >
      {children}
@@ -331,7 +332,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ children, isOpen }) => (
          transition={{ duration: 0.2, ease: "easeOut" }}
          className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-56 origin-top z-40"
        >
-           <div className="bg-[#111111] border border-gray-700/50 rounded-md shadow-xl p-2">
+           <div className="bg-white dark:bg-[#111111] border border-gray-200/50 dark:border-gray-700/50 rounded-md shadow-xl p-2">
                {children}
            </div>
        </motion.div>
@@ -348,7 +349,7 @@ interface DropdownItemProps {
 const DropdownItem: React.FC<DropdownItemProps> = ({ href = "#", children, icon }) => (
  <a
    href={href}
-   className="group flex items-center justify-between w-full px-3 py-2 text-sm text-gray-300 hover:bg-gray-700/30 hover:text-white rounded-md transition-colors duration-150"
+   className="group flex items-center justify-between w-full px-3 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/30 hover:text-gray-900 dark:hover:text-white rounded-md transition-colors duration-150"
  >
    <span>{children}</span>
    {icon && React.cloneElement(icon, { className: "w-4 h-4 ml-1 opacity-70 group-hover:opacity-100 transition-opacity" })}
@@ -570,14 +571,10 @@ const InteractiveHero: React.FC = () => {
 
    const headerVariants: Variants = {
        top: {
-           backgroundColor: "rgba(17, 17, 17, 0.8)",
-           borderBottomColor: "rgba(55, 65, 81, 0.5)",
            position: 'fixed',
            boxShadow: 'none',
        },
        scrolled: {
-           backgroundColor: "rgba(17, 17, 17, 0.95)",
-           borderBottomColor: "rgba(75, 85, 99, 0.7)",
            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
            position: 'fixed'
        }
@@ -622,10 +619,13 @@ const InteractiveHero: React.FC = () => {
     };
 
   return (
-    <div className="pt-[100px] relative bg-[#111111] text-gray-300 min-h-screen flex flex-col overflow-x-hidden">
+    <div className="pt-[100px] relative bg-white dark:bg-[#111111] text-gray-700 dark:text-gray-300 min-h-screen flex flex-col overflow-x-hidden">
         <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none opacity-80" />
-        <div className="absolute inset-0 z-1 pointer-events-none" style={{
+        <div className="absolute inset-0 z-1 pointer-events-none dark:block hidden" style={{
             background: 'linear-gradient(to bottom, transparent 0%, #111111 90%), radial-gradient(ellipse at center, transparent 40%, #111111 95%)'
+        }}></div>
+        <div className="absolute inset-0 z-1 pointer-events-none dark:hidden block" style={{
+            background: 'linear-gradient(to bottom, transparent 0%, white 90%), radial-gradient(ellipse at center, transparent 40%, white 95%)'
         }}></div>
 
         <motion.header
@@ -633,7 +633,7 @@ const InteractiveHero: React.FC = () => {
             initial="top"
             animate={isScrolled ? "scrolled" : "top"}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="px-6 w-full md:px-10 lg:px-16 sticky top-0 z-30 backdrop-blur-md border-b"
+            className="px-6 w-full md:px-10 lg:px-16 sticky top-0 z-30 backdrop-blur-md border-b bg-white/80 dark:bg-[#111111]/80 border-gray-200/50 dark:border-gray-700/50"
         >
             <nav className="flex justify-between items-center max-w-screen-xl mx-auto h-[70px]">
                 <div className="flex items-center flex-shrink-0">
@@ -642,7 +642,7 @@ const InteractiveHero: React.FC = () => {
                         <path d="M2 17L12 22L22 17" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         <path d="M2 12L12 17L22 12" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    <span className="text-xl font-bold text-white ml-2">Thepeedika</span>
+                    <span className="text-xl font-bold text-gray-900 dark:text-white ml-2">Thepeedika</span>
                 </div>
 
                 <div className="hidden md:flex items-center justify-center flex-grow space-x-6 lg:space-x-8 px-4">
@@ -677,6 +677,8 @@ const InteractiveHero: React.FC = () => {
                 </div>
 
                 <div className="flex items-center flex-shrink-0 space-x-4 lg:space-x-6">
+                    <ThemeToggle />
+                    
                     <motion.a
                         href="#"
                         className="bg-[#0CF2A0] text-[#111111] px-4 py-[6px] rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors duration-200 whitespace-nowrap shadow-sm hover:shadow-md"
@@ -730,12 +732,12 @@ const InteractiveHero: React.FC = () => {
                 variants={headlineVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-4xl sm:text-5xl lg:text-[64px] font-semibold text-white leading-tight max-w-4xl mb-4"
+                className="text-4xl sm:text-5xl lg:text-[64px] font-semibold text-gray-900 dark:text-white leading-tight max-w-4xl mb-4"
             >
-                Complete E-commerce<br />{' '}
+                Agentic E-commerce<br />{' '}
                 <span className="inline-block h-[1.2em] sm:h-[1.2em] lg:h-[1.2em] overflow-hidden align-bottom">
                     <RotatingText
-                        texts={['Backend', 'Platform', 'Solution', 'Infrastructure', 'System']}
+                        texts={['Web Store', 'Mobile App', 'WhatsApp', 'Instagram', 'Chat Bot']}
                         mainClassName="text-[#0CF2A0] mx-1"
                         staggerFrom={"last"}
                         initial={{ y: "-100%", opacity: 0 }}
@@ -755,9 +757,9 @@ const InteractiveHero: React.FC = () => {
                 variants={subHeadlineVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-base sm:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto mb-8"
+                className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8"
             >
-                Build your online store with any frontend you want - Web, Mobile App, or Chat-based commerce on WhatsApp & Instagram. One powerful backend, unlimited possibilities.
+                Sell products or services directly from your DM's whether it's WhatsApp, Instagram or any other Messengers.
             </motion.p>
 
             <motion.form
@@ -772,7 +774,7 @@ const InteractiveHero: React.FC = () => {
                     placeholder="Your work email"
                     required
                     aria-label="Work Email"
-                    className="flex-grow w-full sm:w-auto px-4 py-2 rounded-md bg-[#2a2a2a] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0CF2A0] focus:border-transparent transition-all"
+                    className="flex-grow w-full sm:w-auto px-4 py-2 rounded-md bg-white dark:bg-[#2a2a2a] border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0CF2A0] focus:border-transparent transition-all"
                 />
                 <motion.button
                     type="submit"
@@ -789,7 +791,7 @@ const InteractiveHero: React.FC = () => {
                 variants={trialTextVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-xs text-gray-500 mb-10"
+                className="text-xs text-gray-500 dark:text-gray-500 mb-10"
             >
                 Free 14 day trial • No credit card required
             </motion.p>
@@ -800,29 +802,25 @@ const InteractiveHero: React.FC = () => {
                 animate="visible"
                 className="flex flex-col items-center justify-center space-y-2 mb-10"
             >
-                <span className="text-xs uppercase text-gray-500 tracking-wider font-medium">Integrates with</span>
-                <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-gray-400">
-                    <span className="flex items-center whitespace-nowrap">WhatsApp  <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" className="ml-1"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg></span>
-                    <span className="flex items-center whitespace-nowrap">Instagram  <svg width="16" height="16" viewBox="0 0 24 24" fill="#E4405F" className="ml-1"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></span>
-                    <span className="flex items-center whitespace-nowrap">Razorpay  <svg width="16" height="16" viewBox="0 0 24 24" fill="#0C2451" className="ml-1"><path d="M22.436 0H1.564C.7.026.026.7 0 1.564V22.436C.026 23.3.7 23.974 1.564 24H22.436c.864-.026 1.538-.7 1.564-1.564V1.564C23.974.7 23.3.026 22.436 0zM9.2 18.4l8.4-12H12L6.8 12h5.6l-3.2 6.4z"/></svg></span>
-                    <span className="flex items-center whitespace-nowrap">AND MORE</span>
+                <span className="text-xs uppercase text-gray-500 dark:text-gray-500 tracking-wider font-medium">Integrates with</span>
+                <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-gray-600 dark:text-gray-400">
+                    <span className="flex items-center gap-2 whitespace-nowrap">
+                        <SiRazorpay className="h-4 w-4" aria-hidden="true" />
+                        <span>Razorpay</span>
+                    </span>
+                    <span className="flex items-center gap-2 whitespace-nowrap">
+                        <SiPhonepe className="h-4 w-4" aria-hidden="true" />
+                        <span>PhonePe</span>
+                    </span>
+                    <span className="flex items-center gap-2 whitespace-nowrap">
+                        <SiStripe className="h-4 w-4" aria-hidden="true" />
+                        <span>Stripe</span>
+                    </span>
+                    <span className="flex items-center gap-2 whitespace-nowrap">
+                        <SiPaytm className="h-4 w-4" aria-hidden="true" />
+                        <span>Paytm</span>
+                    </span>
                 </div>
-            </motion.div>
-
-            <motion.div
-                variants={imageVariants}
-                initial="hidden"
-                animate="visible"
-                className="w-full max-w-4xl mx-auto px-4 sm:px-0"
-            >
-                <img
-                    src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80"
-                    alt="E-commerce dashboard showing analytics, inventory management, and multi-channel integration"
-                    width={1024}
-                    height={640}
-                    className="w-full h-auto object-contain rounded-lg shadow-xl border border-gray-700/50"
-                    loading="lazy"
-                />
             </motion.div>
         </main>
 

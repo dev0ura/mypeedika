@@ -5,7 +5,7 @@ import { Mail, ExternalLink } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#0a0a0a] border-t border-gray-800/50">
+    <footer className="bg-gray-100 dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-gray-800/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -16,13 +16,13 @@ const Footer = () => {
                 <path d="M2 17L12 22L22 17" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M2 12L12 17L22 12" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span className="text-2xl font-bold text-white ml-3">Thepeedika</span>
+              <span className="text-2xl font-bold text-gray-900 dark:text-white ml-3">Thepeedika</span>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-md mb-6">
+            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-md mb-6">
               Complete e-commerce backend platform with flexible frontend options. 
               Build your online store with Web, Mobile App, or Chat-based commerce on WhatsApp & Instagram.
             </p>
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
+            <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm">
               <Mail className="h-4 w-4" />
               <a href="mailto:hello@thepeedika.com" className="hover:text-[#0CF2A0] transition-colors">
                 hello@thepeedika.com
@@ -32,35 +32,35 @@ const Footer = () => {
 
           {/* Products */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Products</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Products</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   E-commerce Backend
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   Web Frontend
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   Mobile App
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   Chat Commerce
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   WhatsApp Integration
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   Instagram Integration
                 </a>
               </li>
@@ -69,38 +69,38 @@ const Footer = () => {
 
           {/* Resources */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Resources</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Resources</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm flex items-center gap-1">
                   Documentation
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   API Reference
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm flex items-center gap-1">
                   Help Center
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm flex items-center gap-1">
                   Blog
                   <ExternalLink className="h-3 w-3" />
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   Guides
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                   Community
                 </a>
               </li>
@@ -109,20 +109,20 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-800/50 mt-12 pt-8">
+        <div className="border-t border-gray-200 dark:border-gray-800/50 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-600 dark:text-gray-400 text-sm">
               © 2024 Thepeedika. All rights reserved.
             </div>
             
             <div className="flex items-center gap-6">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                 Terms of Service
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                 Privacy Policy
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">
+              <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm">
                 Cookie Policy
               </a>
             </div>
