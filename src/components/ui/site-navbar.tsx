@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState, type ReactNode, type MouseEvent as ReactMouseEvent, type SVGProps } from 'react';
+import React, { useEffect, useState, type ReactNode, type MouseEvent as ReactMouseEvent, type SVGProps } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, type Variants } from 'framer-motion';
 import { ThemeToggle } from './theme-toggle';
 

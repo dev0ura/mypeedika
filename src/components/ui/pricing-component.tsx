@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Check } from 'lucide-react';
 
 const Pricing = () => {
@@ -97,7 +97,7 @@ const Pricing = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {plans.map((plan, index) => (
+          {plans.map((plan) => (
             <div
               key={plan.name}
               className={`relative rounded-2xl border backdrop-blur-sm transition-all duration-300 ${plan.highlighted
@@ -138,8 +138,8 @@ const Pricing = () => {
               </div>
 
               <div className="space-y-4 mb-8">
-                {plan.features.map((feature, i) => (
-                  <div key={i} className="flex items-start gap-3">
+                              {plan.features.map((feature) => (
+                <div key={feature} className="flex items-start gap-3">
                     <Check className="h-5 w-5 text-[#0CF2A0] mt-0.5 flex-shrink-0" />
                     <span className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{feature}</span>
                   </div>
