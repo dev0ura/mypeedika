@@ -6,12 +6,13 @@ export default function PricingPage() {
   return (
     <div>
       <SiteNavbar />
-      <div className="py-16">
+      <div className="py-26 flex flex-col items-center justify-center">
         <PricingSection
           heading="Plans that Scale with You"
           description="Whether you're just starting out or growing fast, our flexible pricing has you covered — with no hidden costs."
           plans={PLANS}
         />
+        <i className="text-center text-sm text-gray-500">Additional one time setup fee will be charged based on your requirements*</i>
       </div>
       <Footer />
     </div>
@@ -20,47 +21,39 @@ export default function PricingPage() {
 
 const PLANS = [
   {
-    name: 'Basic',
-    info: 'For most individuals',
-    price: { monthly: 7, yearly: Math.round(7 * 12 * (1 - 0.12)) },
+    name: 'Starter',
+    info: 'For small businesses',
+    price: { monthly: 3500, yearly: Math.round(3500 * 12 * (1 - 0.12)) },
     features: [
-      { text: 'Up to 3 Blog posts' },
-      { text: 'Up to 3 Transcriptions' },
-      { text: 'Up to 3 Posts stored' },
-      { text: 'Markdown support', tooltip: 'Export content in Markdown format' },
-      { text: 'Community support', tooltip: 'Get answers your questions on discord' },
-      { text: 'AI powered suggestions', tooltip: 'Get up to 100 AI powered suggestions' },
+      { text: 'Web Store Frontend' },
+      { text: 'Ecommerce Backend' },
+      { text: '1 Staff Account' },
+      { text: '1000 Daily Visitors' },
     ],
     btn: { text: 'Start Your Free Trial', href: '#' },
   },
   {
     highlighted: true,
-    name: 'Pro',
+    name: 'Agentic',
     info: 'For small businesses',
-    price: { monthly: 17.99, yearly: Math.round(17.99 * 12 * (1 - 0.12)) },
+    price: { monthly: 4500, yearly: Math.round(4500 * 12 * (1 - 0.12)) },
     features: [
-      { text: 'Up to 500 Blog Posts' },
-      { text: 'Up to 500 Transcriptions' },
-      { text: 'Up to 500 Posts stored' },
-      { text: 'Unlimited Markdown support', tooltip: 'Export content in Markdown format' },
-      { text: 'SEO optimization tools' },
-      { text: 'Priority support', tooltip: 'Get 24/7 chat support' },
-      { text: 'AI powered suggestions', tooltip: 'Get up to 500 AI powered suggestions' },
+      { text: 'Everything in Starter' },
+      { text: 'WhatsApp Chat Agent' },
+      { text: 'Instagram Chat Agent' },
+      { text: '+ 1000 Daily Visitors' },
     ],
     btn: { text: 'Get started', href: '#' },
   },
   {
-    name: 'Business',
+    name: 'Everything',
     info: 'For large organizations',
-    price: { monthly: 69.99, yearly: Math.round(49.99 * 12 * (1 - 0.12)) },
+    price: { monthly: 5500, yearly: Math.round(5500 * 12 * (1 - 0.12)) },
     features: [
-      { text: 'Unlimited Blog Posts' },
-      { text: 'Unlimited Transcriptions' },
-      { text: 'Unlimited Posts stored' },
-      { text: 'Unlimited Markdown support' },
-      { text: 'SEO optimization tools', tooltip: 'Advanced SEO optimization tools' },
-      { text: 'Priority support', tooltip: 'Get 24/7 chat support' },
-      { text: 'AI powered suggestions', tooltip: 'Get up to 500 AI powered suggestions' },
+      { text: 'Everything in Agentic' },
+      { text: 'IOS Mobile App' },
+      { text: 'Android Mobile App' },
+      { text: '+ 1000 Daily Visitors' },
     ],
     btn: { text: 'Contact team', href: '#' },
   },
