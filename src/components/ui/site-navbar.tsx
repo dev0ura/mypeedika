@@ -138,9 +138,9 @@ export const SiteNavbar: React.FC = () => {
           <div className="relative" onMouseEnter={() => setOpenDropdown('products')} onMouseLeave={() => setOpenDropdown(null)}>
             <NavLink href="#" hasDropdown>Products</NavLink>
             <DropdownMenu isOpen={openDropdown === 'products'}>
-              <DropdownItem href="#">Web Frontend</DropdownItem>
-              <DropdownItem href="#">Mobile App</DropdownItem>
-              <DropdownItem href="#">Atengic Chat</DropdownItem>
+              <DropdownItem href="#">WebStore</DropdownItem>
+              <DropdownItem href="#">Chat Agents</DropdownItem>
+              <DropdownItem href="#">Store Mobile App</DropdownItem>
             </DropdownMenu>
           </div>
           <div className="relative" onMouseEnter={() => setOpenDropdown('resources')} onMouseLeave={() => setOpenDropdown(null)}>
