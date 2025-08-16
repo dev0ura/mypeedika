@@ -23,8 +23,8 @@ const Footer = () => {
             </p>
             <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm">
               <Mail className="h-4 w-4" />
-              <a href="mailto:hello@myPeedika.com" className="hover:text-[#0CF2A0] transition-colors">
-                hello@myPeedika.com
+              <a href="mailto:contact@mypeedika.com" className="hover:text-[#0CF2A0] transition-colors">
+                contact@mypeedika.com
               </a>
             </div>
           </div>
