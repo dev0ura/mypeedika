@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { Mail, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
+import logo from '../../../public/logo.svg';
 
 const Footer = () => {
   return (
@@ -11,11 +13,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="md:col-span-2">
             <div className="flex items-center mb-4">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 17L12 22L22 17" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 12L12 17L22 12" stroke="#0CF2A0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
+              <Image src={logo} alt="myPeedika Logo" width={32} height={32} className="flex-shrink-0" />
               <span className="text-2xl font-bold text-gray-900 dark:text-white ml-3">myPeedika</span>
             </div>
             <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed max-w-md mb-6">
