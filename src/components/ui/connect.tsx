@@ -1,177 +1,90 @@
 "use client";
 
-import * as React from "react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { useAnimate } from "framer-motion";
-import { Mail, MessageCircle, ShoppingBag } from "lucide-react";
+import Link from 'next/link';
+import { Mail, MessageCircle, CalendarCheck } from 'lucide-react';
 
-import { Button, buttonVariants } from "@/components/ui/button";
-
-import { HighlighterItem, HighlightGroup } from "@/components/ui/highlighter";
-import DotsBackdrop from "@/components/ui/dots-backdrop";
+const stats = [
+  { value: '100+',    label: 'Stores launched' },
+  { value: '7 days',  label: 'Average go-live' },
+  { value: '₹2Cr+',  label: 'Sales processed' },
+];
 
 export function Connect() {
-  const [scope, animate] = useAnimate();
-
-  React.useEffect(() => {
-    animate(
-      [
-        ["#pointer", { left: 200, top: 60 }, { duration: 0 }],
-        ["#javascript", { opacity: 1 }, { duration: 0.3 }],
-        [
-          "#pointer",
-          { left: 50, top: 102 },
-          { at: "+0.5", duration: 0.5, ease: "easeInOut" },
-        ],
-        ["#javascript", { opacity: 0.4 }, { at: "-0.3", duration: 0.1 }],
-        ["#react-js", { opacity: 1 }, { duration: 0.3 }],
-        [
-          "#pointer",
-          { left: 224, top: 170 },
-          { at: "+0.5", duration: 0.5, ease: "easeInOut" },
-        ],
-        ["#react-js", { opacity: 0.4 }, { at: "-0.3", duration: 0.1 }],
-        ["#typescript", { opacity: 1 }, { duration: 0.3 }],
-        [
-          "#pointer",
-          { left: 88, top: 198 },
-          { at: "+0.5", duration: 0.5, ease: "easeInOut" },
-        ],
-        ["#typescript", { opacity: 0.4 }, { at: "-0.3", duration: 0.1 }],
-        ["#next-js", { opacity: 1 }, { duration: 0.3 }],
-        [
-          "#pointer",
-          { left: 200, top: 60 },
-          { at: "+0.5", duration: 0.5, ease: "easeInOut" },
-        ],
-        ["#next-js", { opacity: 0.5 }, { at: "-0.3", duration: 0.1 }],
-      ],
-      {
-        repeat: Number.POSITIVE_INFINITY,
-      },
-    );
-  }, [animate]);
   return (
-    <section className="relative mx-auto mb-20 mt-6 max-w-5xl  ">
-      <HighlightGroup className="group h-full">
+    <section className="relative bg-white py-28 md:py-36 overflow-hidden">
+
+      {/* Organic gradient blobs — right side (Cohere reference) */}
+      <div className="absolute inset-0 pointer-events-none">
         <div
-          className="group/item h-full md:col-span-6 lg:col-span-12"
-          data-aos="fade-down"
-        >
-          <HighlighterItem className="rounded-3xl p-6">
-            <div className="relative z-20 h-full overflow-hidden rounded-3xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-[#111111]">
-              <DotsBackdrop className="absolute inset-0 -z-10 opacity-80" />
-              <div className="flex justify-center">
-                <div className="flex h-full flex-col justify-center gap-10 p-4 md:h-[300px] md:flex-row">
-                  <div
-                    className="relative mx-auto h-[270px] w-[300px] md:h-[270px] md:w-[300px]"
-                    ref={scope}
-                  >
-                    <ShoppingBag className="absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 text-[#0CF2A0]" />
-                    <div
-                      id="next-js"
-                      className="absolute bottom-12 left-14 rounded-3xl border border-slate-400 bg-slate-200 px-2 py-1.5 text-xs opacity-50 dark:border-slate-600 dark:bg-slate-800"
-                    >
-                      Local Language
-                    </div>
-                    <div
-                      id="react-js"
-                      className="absolute left-2 top-20 rounded-3xl border border-slate-400 bg-slate-200 px-2 py-1.5 text-xs opacity-50 dark:border-slate-600 dark:bg-slate-800"
-                    >
-                      Store Everywhere
-                    </div>
-                    <div
-                      id="typescript"
-                      className="absolute bottom-20 right-1 rounded-3xl border border-slate-400 bg-slate-200 px-2 py-1.5 text-xs opacity-50 dark:border-slate-600 dark:bg-slate-800"
-                    >
-                      24/7 sales coverage
-                    </div>
-                    <div
-                      id="javascript"
-                      className="absolute right-12 top-10 rounded-3xl border border-slate-400 bg-slate-200 px-2 py-1.5 text-xs opacity-50 dark:border-slate-600 dark:bg-slate-800"
-                    >
-                      In Chat Checkout 
-                    </div>
+          className="absolute rounded-full"
+          style={{ width: 500, height: 500, top: '-10%', right: '-8%', background: 'radial-gradient(circle,#00BCD4,transparent 70%)', opacity: 0.1, filter: 'blur(40px)' }}
+        />
+        <div
+          className="absolute rounded-full"
+          style={{ width: 380, height: 380, bottom: '-5%', right: '8%', background: 'radial-gradient(circle,#7ED321,transparent 70%)', opacity: 0.12, filter: 'blur(50px)' }}
+        />
+        <div
+          className="absolute rounded-full"
+          style={{ width: 280, height: 280, top: '30%', right: '20%', background: 'radial-gradient(circle,#3CC49A,transparent 70%)', opacity: 0.09, filter: 'blur(60px)' }}
+        />
+      </div>
 
-                    <div id="pointer" className="absolute">
-                      <svg
-                        width="16.8"
-                        height="18.2"
-                        viewBox="0 0 12 13"
-                        className="fill-red-500"
-                        stroke="white"
-                        strokeWidth="1"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M12 5.50676L0 0L2.83818 13L6.30623 7.86537L12 5.50676V5.50676Z"
-                        />
-                      </svg>
-                      <span className="relative -top-1 left-3 rounded-3xl bg-[rgba(12,242,160,0.15)] border border-[rgba(12,242,160,0.35)] px-2 py-1 text-xs text-[#0CF2A0]">
-                      myPeedika
-                      </span>
-                    </div>
-                  </div>
+      <div className="relative max-w-7xl mx-auto px-6">
+        <div className="max-w-2xl">
 
-                  <div className="-mt-20 flex h-full flex-col justify-center p-2 md:-mt-4 md:ml-10 md:w-[400px]">
-                    <div className="flex flex-col items-center">
-                      <h3 className="mt-6   pb-1 font-bold ">
-                        <span className="text-2xl md:text-4xl">
-                        Any questions about our Products?
-                        </span>
-                      </h3>
-                    </div>
-                    <p className="mb-4 text-slate-400">
-                      Feel free to reach out to us!
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <Link
-                        href={"https://cal.com/rabeeh0ta/mypeedika-demo"}
-                        target="_blank"
-                      >
-                        <Button>Book a call</Button>
-                      </Link>
-                      <Link
-                        href="mailto:contact@mypeedika.com"
-                        target="_blank"
-                        className={cn(
-                          buttonVariants({
-                            variant: "outline",
-                            size: "icon",
-                          }),
-                        )}
-                      >
-                        <span className="flex items-center gap-1">
-                          <Mail strokeWidth={1} className="h-5 w-5" />
-                        </span>
-                      </Link>
-                      <Link
-                        href="https://wa.me/919048814964"
-                        target="_blank"
-                        className={cn(
-                          buttonVariants({
-                            variant: "outline",
-                            size: "icon",
-                          }),
-                        )}
-                      >
-                        <span className="flex items-center gap-1">
-                          <MessageCircle strokeWidth={1} className="h-4 w-4" />
-                        </span>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+          <p className="text-xs font-semibold uppercase tracking-[3px] text-[#00BFA5] mb-5">
+            Get started
+          </p>
+
+          <h2 className="text-[44px] sm:text-[56px] font-bold text-[#0A0A0A] leading-[1.05] tracking-[-2px] mb-6">
+            Interested in learning<br />more about myPeedika?
+          </h2>
+
+          <p className="text-lg text-gray-500 leading-relaxed mb-10 max-w-lg">
+            We&apos;d love to walk you through the platform and see if it&apos;s a good fit for your business.
+          </p>
+
+          {/* CTA buttons */}
+          <div className="flex flex-wrap gap-3 mb-16">
+            <Link
+              href="https://cal.com/rabeeh0ta/mypeedika-demo"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-white px-6 py-3 rounded-full"
+              style={{ background: 'linear-gradient(135deg,#00BCD4,#3CC49A 55%,#7ED321)' }}
+            >
+              <CalendarCheck className="w-4 h-4" />
+              Book a free call
+            </Link>
+            <Link
+              href="mailto:contact@mypeedika.com"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#0A0A0A] px-6 py-3 rounded-full border border-[#0A0A0A]/12 hover:bg-black hover:text-white transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              Send us an email
+            </Link>
+            <Link
+              href="https://wa.me/919048814964"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#0A0A0A] px-6 py-3 rounded-full border border-[#0A0A0A]/12 hover:bg-black hover:text-white transition-colors"
+            >
+              <MessageCircle className="w-4 h-4" />
+              WhatsApp us
+            </Link>
+          </div>
+
+          {/* Stats row */}
+          <div className="flex flex-wrap gap-10">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <p className="text-3xl font-bold text-[#0A0A0A] tracking-tight">{s.value}</p>
+                <p className="text-sm text-gray-400 mt-1">{s.label}</p>
               </div>
-            </div>
-          </HighlighterItem>
+            ))}
+          </div>
         </div>
-      </HighlightGroup>
+      </div>
     </section>
   );
 }
-
-

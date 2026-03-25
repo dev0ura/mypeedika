@@ -1,625 +1,219 @@
 "use client";
 
-import React, {
-    useEffect,
-    useRef,
-    useState,
-    useCallback,
-    forwardRef,
-    useImperativeHandle,
-    useMemo,
-    type FormEvent,
-} from 'react';
-import {
-    motion,
-    AnimatePresence,
-    type Transition,
-    type VariantLabels,
-    type Target,
-    type TargetAndTransition,
-    type Variants,
-} from 'framer-motion';
-
+import { motion } from 'framer-motion';
 import { SiRazorpay, SiStripe, SiPaytm, SiPhonepe } from 'react-icons/si';
 
-function cn(...classes: (string | undefined | null | boolean)[]): string {
-  return classes.filter(Boolean).join(" ");
-}
+const FADE_UP = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.65, delay, ease: [0.21, 0.47, 0.32, 0.98] as [number,number,number,number] },
+});
 
-interface RotatingTextRef {
-  next: () => void;
-  previous: () => void;
-  jumpTo: (index: number) => void;
-  reset: () => void;
-}
-
-interface RotatingTextProps
-  extends Omit<
-    React.ComponentPropsWithoutRef<typeof motion.span>,
-    "children" | "transition" | "initial" | "animate" | "exit"
-  > {
-  texts: string[];
-  transition?: Transition;
-  initial?: boolean | Target | VariantLabels;
-  animate?: boolean | VariantLabels | TargetAndTransition;
-  exit?: Target | VariantLabels;
-  animatePresenceMode?: "sync" | "wait";
-  animatePresenceInitial?: boolean;
-  rotationInterval?: number;
-  staggerDuration?: number;
-  staggerFrom?: "first" | "last" | "center" | "random" | number;
-  loop?: boolean;
-  auto?: boolean;
-  splitBy?: "characters" | "words" | "lines" | string;
-  onNext?: (index: number) => void;
-  mainClassName?: string;
-  splitLevelClassName?: string;
-  elementLevelClassName?: string;
-}
-
-const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
-  (
-    {
-      texts,
-      transition = { type: "spring", damping: 25, stiffness: 300 },
-      initial = { y: "100%", opacity: 0 },
-      animate = { y: 0, opacity: 1 },
-      exit = { y: "-120%", opacity: 0 },
-      animatePresenceMode = "wait",
-      animatePresenceInitial = false,
-      rotationInterval = 2200,
-      staggerDuration = 0.01,
-      staggerFrom = "last",
-      loop = true,
-      auto = true,
-      splitBy = "characters",
-      onNext,
-      mainClassName,
-      splitLevelClassName,
-      elementLevelClassName,
-      ...rest
-    },
-    ref
-  ) => {
-    const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
-
-    const splitIntoCharacters = (text: string): string[] => {
-      if (typeof Intl !== "undefined" && Intl.Segmenter) {
-        try {
-           const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
-           return Array.from(segmenter.segment(text), (segment) => segment.segment);
-        } catch (error) {
-           console.error("Intl.Segmenter failed, falling back to simple split:", error);
-           return text.split('');
-        }
-      }
-      return text.split('');
-    };
-
-    const elements = useMemo(() => {
-        const currentText: string = texts[currentTextIndex] ?? '';
-        if (splitBy === "characters") {
-            const words = currentText.split(/(\s+)/);
-            let charCount = 0;
-            return words.filter(part => part.length > 0).map((part) => {
-                const isSpace = /^\s+$/.test(part);
-                const chars = isSpace ? [part] : splitIntoCharacters(part);
-                const startIndex = charCount;
-                charCount += chars.length;
-                return { characters: chars, isSpace: isSpace, startIndex: startIndex };
-            });
-        }
-        if (splitBy === "words") {
-            return currentText.split(/(\s+)/).filter(word => word.length > 0).map((word, i) => ({
-                characters: [word], isSpace: /^\s+$/.test(word), startIndex: i
-            }));
-        }
-        if (splitBy === "lines") {
-            return currentText.split('\n').map((line, i) => ({
-                characters: [line], isSpace: false, startIndex: i
-            }));
-        }
-        return currentText.split(splitBy).map((part, i) => ({
-            characters: [part], isSpace: false, startIndex: i
-        }));
-    }, [texts, currentTextIndex, splitBy]);
-
-    const totalElements = useMemo(() => elements.reduce((sum, el) => sum + el.characters.length, 0), [elements]);
-
-    const getStaggerDelay = useCallback(
-      (index: number, total: number): number => {
-        if (total <= 1 || !staggerDuration) return 0;
-        const stagger = staggerDuration;
-        switch (staggerFrom) {
-          case "first": return index * stagger;
-          case "last": return (total - 1 - index) * stagger;
-          case "center":
-            const center = (total - 1) / 2;
-            return Math.abs(center - index) * stagger;
-          case "random": return Math.random() * (total - 1) * stagger;
-          default:
-            if (typeof staggerFrom === 'number') {
-              const fromIndex = Math.max(0, Math.min(staggerFrom, total - 1));
-              return Math.abs(fromIndex - index) * stagger;
-            }
-            return index * stagger;
-        }
-      },
-      [staggerFrom, staggerDuration]
-    );
-
-    const handleIndexChange = useCallback(
-      (newIndex: number) => {
-        setCurrentTextIndex(newIndex);
-        onNext?.(newIndex);
-      },
-      [onNext]
-    );
-
-    const next = useCallback(() => {
-      const nextIndex = currentTextIndex === texts.length - 1 ? (loop ? 0 : currentTextIndex) : currentTextIndex + 1;
-      if (nextIndex !== currentTextIndex) handleIndexChange(nextIndex);
-    }, [currentTextIndex, texts.length, loop, handleIndexChange]);
-
-    const previous = useCallback(() => {
-      const prevIndex = currentTextIndex === 0 ? (loop ? texts.length - 1 : currentTextIndex) : currentTextIndex - 1;
-      if (prevIndex !== currentTextIndex) handleIndexChange(prevIndex);
-    }, [currentTextIndex, texts.length, loop, handleIndexChange]);
-
-    const jumpTo = useCallback(
-      (index: number) => {
-        const validIndex = Math.max(0, Math.min(index, texts.length - 1));
-        if (validIndex !== currentTextIndex) handleIndexChange(validIndex);
-      },
-      [texts.length, currentTextIndex, handleIndexChange]
-    );
-
-     const reset = useCallback(() => {
-        if (currentTextIndex !== 0) handleIndexChange(0);
-     }, [currentTextIndex, handleIndexChange]);
-
-    useImperativeHandle(ref, () => ({ next, previous, jumpTo, reset }), [next, previous, jumpTo, reset]);
-
-    useEffect(() => {
-      if (!auto || texts.length <= 1) return;
-      const intervalId = setInterval(next, rotationInterval);
-      return () => clearInterval(intervalId);
-    }, [next, rotationInterval, auto, texts.length]);
-
-    return (
-      <motion.span
-        className={cn("inline-flex flex-wrap whitespace-pre-wrap relative align-bottom pb-[10px]", mainClassName)}
-        {...rest}
-        layout
-      >
-        <span className="sr-only">{texts[currentTextIndex]}</span>
-        <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
-          <motion.div
-            key={currentTextIndex}
-            className={cn(
-               "inline-flex flex-wrap relative",
-               splitBy === "lines" ? "flex-col items-start w-full" : "flex-row items-baseline"
-            )}
-            layout
-            aria-hidden="true"
-            initial="initial"
-            animate="animate"
-            exit="exit"
-          >
-             {elements.map((elementObj, elementIndex) => (
-                <span
-                    key={elementIndex}
-                    className={cn("inline-flex", splitBy === 'lines' ? 'w-full' : '', splitLevelClassName)}
-                    style={{ whiteSpace: 'pre' }}
-                >
-                    {elementObj.characters.map((char, charIndex) => {
-                        const globalIndex = elementObj.startIndex + charIndex;
-                        return (
-                            <motion.span
-                                key={`${char}-${charIndex}`}
-                                initial={initial}
-                                animate={animate}
-                                exit={exit}
-                                transition={{
-                                    ...transition,
-                                    delay: getStaggerDelay(globalIndex, totalElements),
-                                }}
-                                className={cn("inline-block leading-none tracking-tight", elementLevelClassName)}
-                            >
-                                {char === ' ' ? '\u00A0' : char}
-                            </motion.span>
-                        );
-                     })}
-                </span>
-             ))}
-          </motion.div>
-        </AnimatePresence>
-      </motion.span>
-    );
-  }
-);
-RotatingText.displayName = "RotatingText";
-
-const ShinyText: React.FC<{ text: string; className?: string }> = ({ text, className = "" }) => (
-    <span className={cn("relative overflow-hidden inline-block", className)}>
-        {text}
-        <span style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-            animation: 'shine 2s infinite linear',
-            opacity: 0.5,
-            pointerEvents: 'none'
-        }}></span>
-        <style>{`
-            @keyframes shine {
-                0% { transform: translateX(-100%); }
-                100% { transform: translateX(100%); }
-            }
-        `}</style>
-    </span>
-);
-
-
-
-
-
-
-
-interface Dot {
-    x: number;
-    y: number;
-    baseColor: string;
-    targetOpacity: number;
-    currentOpacity: number;
-    opacitySpeed: number;
-    baseRadius: number;
-    currentRadius: number;
-}
-
-const InteractiveHero: React.FC = () => {
-   const canvasRef = useRef<HTMLCanvasElement>(null);
-   const animationFrameId = useRef<number | null>(null);
-
-
-
-
-   const dotsRef = useRef<Dot[]>([]);
-   const gridRef = useRef<Record<string, number[]>>({});
-   const canvasSizeRef = useRef<{ width: number; height: number }>({ width: 0, height: 0 });
-   const mousePositionRef = useRef<{ x: number | null; y: number | null }>({ x: null, y: null });
-
-   const DOT_SPACING = 25;
-   const BASE_OPACITY_MIN = 0.40;
-   const BASE_OPACITY_MAX = 0.50;
-   const BASE_RADIUS = 1;
-   const INTERACTION_RADIUS = 150;
-   const INTERACTION_RADIUS_SQ = INTERACTION_RADIUS * INTERACTION_RADIUS;
-   const OPACITY_BOOST = 0.6;
-   const RADIUS_BOOST = 2.5;
-   const GRID_CELL_SIZE = Math.max(50, Math.floor(INTERACTION_RADIUS / 1.5));
-
-   const handleMouseMove = useCallback((event: globalThis.MouseEvent) => {
-        const canvas = canvasRef.current;
-        if (!canvas) {
-            mousePositionRef.current = { x: null, y: null };
-            return;
-        }
-        const rect = canvas.getBoundingClientRect();
-        const canvasX = event.clientX - rect.left;
-        const canvasY = event.clientY - rect.top;
-        mousePositionRef.current = { x: canvasX, y: canvasY };
-   }, []);
-
-   const createDots = useCallback(() => {
-       const { width, height } = canvasSizeRef.current;
-       if (width === 0 || height === 0) return;
-
-       const newDots: Dot[] = [];
-       const newGrid: Record<string, number[]> = {};
-       const cols = Math.ceil(width / DOT_SPACING);
-       const rows = Math.ceil(height / DOT_SPACING);
-
-       for (let i = 0; i < cols; i++) {
-           for (let j = 0; j < rows; j++) {
-               const x = i * DOT_SPACING + DOT_SPACING / 2;
-               const y = j * DOT_SPACING + DOT_SPACING / 2;
-               const cellX = Math.floor(x / GRID_CELL_SIZE);
-               const cellY = Math.floor(y / GRID_CELL_SIZE);
-               const cellKey = `${cellX}_${cellY}`;
-
-               if (!newGrid[cellKey]) {
-                   newGrid[cellKey] = [];
-               }
-
-               const dotIndex = newDots.length;
-               newGrid[cellKey].push(dotIndex);
-
-               const baseOpacity = Math.random() * (BASE_OPACITY_MAX - BASE_OPACITY_MIN) + BASE_OPACITY_MIN;
-               newDots.push({
-                   x,
-                   y,
-                   baseColor: `rgba(87, 220, 205, ${BASE_OPACITY_MAX})`,
-                   targetOpacity: baseOpacity,
-                   currentOpacity: baseOpacity,
-                   opacitySpeed: (Math.random() * 0.005) + 0.002,
-                   baseRadius: BASE_RADIUS,
-                   currentRadius: BASE_RADIUS,
-               });
-           }
-       }
-       dotsRef.current = newDots;
-       gridRef.current = newGrid;
-   }, [DOT_SPACING, GRID_CELL_SIZE, BASE_OPACITY_MIN, BASE_OPACITY_MAX, BASE_RADIUS]);
-
-   const handleResize = useCallback(() => {
-       const canvas = canvasRef.current;
-       if (!canvas) return;
-       const container = canvas.parentElement;
-       const width = container ? container.clientWidth : window.innerWidth;
-       const height = container ? container.clientHeight : window.innerHeight;
-
-       if (canvas.width !== width || canvas.height !== height ||
-           canvasSizeRef.current.width !== width || canvasSizeRef.current.height !== height)
-       {
-           canvas.width = width;
-           canvas.height = height;
-           canvasSizeRef.current = { width, height };
-           createDots();
-       }
-   }, [createDots]);
-
-   const animateDots = useCallback(() => {
-       const canvas = canvasRef.current;
-       const ctx = canvas?.getContext('2d');
-       const dots = dotsRef.current;
-       const grid = gridRef.current;
-       const { width, height } = canvasSizeRef.current;
-       const { x: mouseX, y: mouseY } = mousePositionRef.current;
-
-       if (!ctx || !dots || !grid || width === 0 || height === 0) {
-           animationFrameId.current = requestAnimationFrame(animateDots);
-           return;
-       }
-
-       ctx.clearRect(0, 0, width, height);
-
-       const activeDotIndices = new Set<number>();
-       if (mouseX !== null && mouseY !== null) {
-           const mouseCellX = Math.floor(mouseX / GRID_CELL_SIZE);
-           const mouseCellY = Math.floor(mouseY / GRID_CELL_SIZE);
-           const searchRadius = Math.ceil(INTERACTION_RADIUS / GRID_CELL_SIZE);
-           for (let i = -searchRadius; i <= searchRadius; i++) {
-               for (let j = -searchRadius; j <= searchRadius; j++) {
-                   const checkCellX = mouseCellX + i;
-                   const checkCellY = mouseCellY + j;
-                   const cellKey = `${checkCellX}_${checkCellY}`;
-                   if (grid[cellKey]) {
-                       grid[cellKey].forEach(dotIndex => activeDotIndices.add(dotIndex));
-                   }
-               }
-           }
-       }
-
-       dots.forEach((dot, index) => {
-           dot.currentOpacity += dot.opacitySpeed;
-           if (dot.currentOpacity >= dot.targetOpacity || dot.currentOpacity <= BASE_OPACITY_MIN) {
-               dot.opacitySpeed = -dot.opacitySpeed;
-               dot.currentOpacity = Math.max(BASE_OPACITY_MIN, Math.min(dot.currentOpacity, BASE_OPACITY_MAX));
-               dot.targetOpacity = Math.random() * (BASE_OPACITY_MAX - BASE_OPACITY_MIN) + BASE_OPACITY_MIN;
-           }
-
-           let interactionFactor = 0;
-           dot.currentRadius = dot.baseRadius;
-
-           if (mouseX !== null && mouseY !== null && activeDotIndices.has(index)) {
-               const dx = dot.x - mouseX;
-               const dy = dot.y - mouseY;
-               const distSq = dx * dx + dy * dy;
-
-               if (distSq < INTERACTION_RADIUS_SQ) {
-                   const distance = Math.sqrt(distSq);
-                   interactionFactor = Math.max(0, 1 - distance / INTERACTION_RADIUS);
-                   interactionFactor = interactionFactor * interactionFactor;
-               }
-           }
-
-           const finalOpacity = Math.min(1, dot.currentOpacity + interactionFactor * OPACITY_BOOST);
-           dot.currentRadius = dot.baseRadius + interactionFactor * RADIUS_BOOST;
-
-           const colorMatch = dot.baseColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
-           const r = colorMatch ? colorMatch[1] : '87';
-           const g = colorMatch ? colorMatch[2] : '220';
-           const b = colorMatch ? colorMatch[3] : '205';
-
-           ctx.beginPath();
-           ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${finalOpacity.toFixed(3)})`;
-           ctx.arc(dot.x, dot.y, dot.currentRadius, 0, Math.PI * 2);
-           ctx.fill();
-       });
-
-       animationFrameId.current = requestAnimationFrame(animateDots);
-   }, [GRID_CELL_SIZE, INTERACTION_RADIUS_SQ]);
-
-   useEffect(() => {
-       handleResize();
-        const handleMouseLeave = () => {
-            mousePositionRef.current = { x: null, y: null };
-        };
-
-       window.addEventListener('mousemove', handleMouseMove, { passive: true });
-       window.addEventListener('resize', handleResize);
-       document.documentElement.addEventListener('mouseleave', handleMouseLeave);
-
-
-       animationFrameId.current = requestAnimationFrame(animateDots);
-
-       return () => {
-           window.removeEventListener('resize', handleResize);
-           window.removeEventListener('mousemove', handleMouseMove);
-           document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
-           if (animationFrameId.current) {
-               cancelAnimationFrame(animationFrameId.current);
-           }
-       };
-   }, [handleResize, handleMouseMove, animateDots]);
-
-
-
-    // Header moved to separate component
-
-    // Mobile menu moved to separate component
-
-    const contentDelay = 0.3;
-    const itemDelayIncrement = 0.1;
-
-    const bannerVariants: Variants = {
-        hidden: { opacity: 0, y: -10 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.4, delay: contentDelay } }
-    };
-   const headlineVariants: Variants = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: 0.5, delay: contentDelay + itemDelayIncrement } }
-    };
-    const subHeadlineVariants: Variants = {
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: contentDelay + itemDelayIncrement * 2 } }
-    };
-    const formVariants: Variants = {
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: contentDelay + itemDelayIncrement * 3 } }
-    };
-    const trialTextVariants: Variants = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: 0.5, delay: contentDelay + itemDelayIncrement * 4 } }
-    };
-    const worksWithVariants: Variants = {
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { duration: 0.5, delay: contentDelay + itemDelayIncrement * 5 } }
-    };
-
-
+/* ── Chat Mockup ─────────────────────────────────────────── */
+function ChatMockup() {
   return (
-    <div className="pt-[100px] relative bg-[#F3F4F6] dark:bg-[#111111] text-gray-700 dark:text-gray-300 min-h-screen flex flex-col overflow-x-hidden">
-        <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none opacity-80" />
-        <div className="absolute inset-0 z-1 pointer-events-none dark:block hidden" style={{
-            background: 'linear-gradient(to bottom, transparent 0%, #111111 90%), radial-gradient(ellipse at center, transparent 40%, #111111 95%)'
-        }}></div>
-        <div className="absolute inset-0 z-1 pointer-events-none dark:hidden block" style={{
-            background: 'linear-gradient(to bottom, transparent 0%, #F3F4F6 90%), radial-gradient(ellipse at center, transparent 40%, #F3F4F6 95%)'
-        }}></div>
+    <div className="relative w-72 select-none">
+      {/* Floating order badge — top right */}
+      <motion.div
+        initial={{ opacity: 0, x: 16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.1, duration: 0.5 }}
+        className="absolute -top-5 -right-6 z-20 bg-[#111318] border border-white/[0.09] rounded-2xl px-3 py-2.5 shadow-2xl"
+      >
+        <p className="text-white/40 text-[9px] uppercase tracking-wider mb-0.5">Today</p>
+        <p className="text-white text-sm font-bold leading-none">12 Orders</p>
+        <p className="text-[#3CC49A] text-[11px] font-medium mt-0.5">↑ ₹48,230</p>
+      </motion.div>
 
-        {/* Navbar moved to SiteNavbar and rendered in page.tsx */}
+      {/* Main chat card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30, rotate: -3 }}
+        animate={{ opacity: 1, y: 0, rotate: -2 }}
+        transition={{ delay: 0.7, duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
+        className="w-72 bg-[#111318] rounded-3xl border border-white/[0.07] shadow-[0_32px_80px_rgba(0,0,0,0.7)] overflow-hidden"
+      >
+        {/* Chat header */}
+        <div className="px-4 pt-4 pb-3 border-b border-white/[0.06] flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style={{ background: 'linear-gradient(135deg,#00BCD4,#7ED321)' }}>
+            M
+          </div>
+          <div>
+            <p className="text-white text-xs font-semibold">myPeedika Store</p>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3CC49A]" />
+              <span className="text-white/35 text-[10px]">Active now</span>
+            </div>
+          </div>
+        </div>
 
-        <main className="flex-grow flex flex-col items-center justify-center text-center px-4 pt-8 pb-16 relative z-10">
+        {/* Messages */}
+        <div className="p-3.5 space-y-2.5">
+          {/* Customer bubble */}
+          <div className="flex justify-start">
+            <div className="bg-[#1A1E28] text-white/80 text-[11px] leading-relaxed px-3.5 py-2 rounded-2xl rounded-tl-sm max-w-[75%]">
+              Can I see your products? 👀
+            </div>
+          </div>
 
-            <motion.div
-                variants={bannerVariants}
-                initial="hidden"
-                animate="visible"
-                className="mb-6"
-            >
-                <ShinyText text="Introducing the future of selling from anywhere" className="bg-[#1a1a1a] border border-gray-700 text-[#0CF2A0] px-4 py-1 rounded-full text-xs sm:text-sm font-medium cursor-pointer hover:border-[#0CF2A0]/50 transition-colors" />
-            </motion.div>
+          {/* Store bubble */}
+          <div className="flex justify-end">
+            <div className="text-white text-[11px] leading-relaxed px-3.5 py-2 rounded-2xl rounded-tr-sm max-w-[75%]" style={{ background: 'linear-gradient(135deg,#00BCD4,#3CC49A)' }}>
+              Sure! Here&apos;s our top pick 🛍️
+            </div>
+          </div>
 
-            <motion.h1
-                variants={headlineVariants}
-                initial="hidden"
-                animate="visible"
-                className="text-4xl sm:text-5xl lg:text-[64px] font-semibold text-gray-900 dark:text-white leading-tight max-w-4xl mb-4"
-            >
-                Agentic E-commerce<br />{' '}
-                <span className="inline-block h-[1.2em] sm:h-[1.2em] lg:h-[1.2em] overflow-hidden align-bottom">
-                    <RotatingText
-                        texts={['Web Store', 'Mobile App', 'WhatsApp', 'Instagram', 'Chat Bot']}
-                        mainClassName="text-[#0CF2A0] mx-1"
-                        staggerFrom={"last"}
-                        initial={{ y: "-100%", opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: "110%", opacity: 0 }}
-                        staggerDuration={0.01}
-                        transition={{ type: "spring", damping: 18, stiffness: 250 }}
-                        rotationInterval={2200}
-                        splitBy="characters"
-                        auto={true}
-                        loop={true}
-                    />
-                </span>
-            </motion.h1>
+          {/* Product card */}
+          <div className="bg-[#1A1E28] rounded-2xl border border-white/[0.07] overflow-hidden">
+            <div className="h-24 flex items-center justify-center" style={{ background: 'linear-gradient(135deg,rgba(0,188,212,0.12),rgba(126,211,33,0.12))' }}>
+              <span className="text-4xl">👟</span>
+            </div>
+            <div className="p-3">
+              <p className="text-white text-[11px] font-semibold">Premium Sneakers</p>
+              <div className="flex items-center justify-between mt-1">
+                <p className="text-[#3CC49A] text-xs font-bold">₹4,999</p>
+                <p className="text-white/30 text-[10px] line-through">₹6,500</p>
+              </div>
+              <button className="mt-2.5 w-full text-[10px] font-bold text-[#07090A] py-2 rounded-xl" style={{ background: 'linear-gradient(135deg,#00BCD4,#7ED321)' }}>
+                Buy Now →
+              </button>
+            </div>
+          </div>
 
-            <motion.p
-                variants={subHeadlineVariants}
-                initial="hidden"
-                animate="visible"
-                className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8"
-            >
-               Sell products or services directly from your DMs — whether it’s WhatsApp, Instagram, or any messenger. One backend. Unlimited reach.
-            </motion.p>
+          {/* Payment confirmed */}
+          <div className="bg-[#0D200F] border border-[#3CC49A]/20 rounded-2xl px-3.5 py-2.5 flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-[#3CC49A]/15 flex items-center justify-center flex-shrink-0">
+              <span className="text-[#3CC49A] text-[10px] font-bold">✓</span>
+            </div>
+            <div>
+              <p className="text-[#3CC49A] text-[10px] font-semibold">Payment Received</p>
+              <p className="text-white/35 text-[9px]">₹4,999 · Razorpay</p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
-            <motion.form
-                variants={formVariants}
-                initial="hidden"
-                animate="visible"
-                className="flex flex-col sm:flex-row items-center justify-center gap-2 w-full max-w-md mx-auto mb-3"
-                onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
-            >
-                <input
-                    type="email"
-                    placeholder="Your work email"
-                    required
-                    aria-label="Work Email"
-                    className="flex-grow w-full sm:w-auto px-4 py-2 rounded-md bg-white dark:bg-[#2a2a2a] border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#0CF2A0] focus:border-transparent transition-all"
-                />
-                <motion.button
-                    type="submit"
-                    className="w-full sm:w-auto bg-[#0CF2A0] text-[#111111] px-5 py-2 rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors duration-200 whitespace-nowrap shadow-sm hover:shadow-md flex-shrink-0"
-                    whileHover={{ scale: 1.03, y: -1 }}
-                    whileTap={{ scale: 0.97 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                >
-                    Start Free Trial
-                </motion.button>
-            </motion.form>
-
-            <motion.p
-                variants={trialTextVariants}
-                initial="hidden"
-                animate="visible"
-                className="text-xs text-gray-500 dark:text-gray-500 mb-10"
-            >
-                Free 14 day trial • No credit card required
-            </motion.p>
-
-            <motion.div
-                variants={worksWithVariants}
-                initial="hidden"
-                animate="visible"
-                className="flex flex-col items-center justify-center space-y-2 mb-10"
-            >
-                <span className="text-xs uppercase text-gray-500 dark:text-gray-500 tracking-wider font-medium">Integrates with</span>
-                <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-gray-600 dark:text-gray-400">
-                    <span className="flex items-center gap-2 whitespace-nowrap">
-                        <SiRazorpay className="h-4 w-4" aria-hidden="true" />
-                        <span>Razorpay</span>
-                    </span>
-                    <span className="flex items-center gap-2 whitespace-nowrap">
-                        <SiPhonepe className="h-4 w-4" aria-hidden="true" />
-                        <span>PhonePe</span>
-                    </span>
-                    <span className="flex items-center gap-2 whitespace-nowrap">
-                        <SiStripe className="h-4 w-4" aria-hidden="true" />
-                        <span>Stripe</span>
-                    </span>
-                    <span className="flex items-center gap-2 whitespace-nowrap">
-                        <SiPaytm className="h-4 w-4" aria-hidden="true" />
-                        <span>Paytm</span>
-                    </span>
-                </div>
-            </motion.div>
-        </main>
-
+      {/* Floating AI agent badge — bottom left */}
+      <motion.div
+        initial={{ opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.3, duration: 0.5 }}
+        className="absolute -bottom-4 -left-8 z-20 flex items-center gap-2 bg-[#111318] border border-white/[0.09] rounded-full px-3.5 py-2 shadow-xl"
+      >
+        <span className="w-2 h-2 rounded-full bg-[#3CC49A] animate-pulse flex-shrink-0" />
+        <p className="text-white text-[11px] font-medium whitespace-nowrap">AI agent selling live</p>
+      </motion.div>
     </div>
   );
-};
+}
 
-export default InteractiveHero;
+/* ── Hero ─────────────────────────────────────────────────── */
+export default function InteractiveHero() {
+  return (
+    <section
+      className="relative min-h-screen flex flex-col overflow-hidden"
+      style={{ background: '#07090A' }}
+    >
+      {/* Gradient blobs — top right */}
+      <div className="absolute top-0 right-0 w-[700px] h-[700px] pointer-events-none" style={{ transform: 'translate(15%, -15%)' }}>
+        <div className="absolute rounded-full bg-[#00BCD4]" style={{ width: 320, height: 320, top: '5%', left: '25%', filter: 'blur(90px)', opacity: 0.28 }} />
+        <div className="absolute rounded-full bg-[#7ED321]" style={{ width: 240, height: 240, top: '45%', left: '45%', filter: 'blur(80px)', opacity: 0.22 }} />
+        <div className="absolute rounded-full bg-[#3CC49A]" style={{ width: 180, height: 180, top: '20%', left: '60%', filter: 'blur(70px)', opacity: 0.18 }} />
+      </div>
+
+      {/* Subtle grid overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px)', backgroundSize: '60px 60px' }}
+      />
+
+      {/* Content */}
+      <div className="flex-1 flex items-center max-w-7xl mx-auto w-full px-6 pt-24 pb-16">
+        <div className="grid lg:grid-cols-[1fr_auto] gap-16 xl:gap-24 items-center w-full">
+
+          {/* Left — text */}
+          <div className="max-w-2xl">
+            {/* Eyebrow */}
+            <motion.div {...FADE_UP(0.1)} className="flex items-center gap-2.5 mb-8">
+              <div className="flex items-center gap-2 border border-white/[0.1] bg-white/[0.04] px-3.5 py-1.5 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3CC49A]" />
+                <span className="text-white/60 text-xs font-medium tracking-wide">AI-Powered Commerce Platform</span>
+              </div>
+            </motion.div>
+
+            {/* Headline */}
+            <motion.h1 {...FADE_UP(0.2)} className="text-[56px] sm:text-[64px] lg:text-[72px] font-bold text-white leading-[1.02] tracking-[-2.5px] mb-6">
+              Build your<br />online store.<br />
+              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg,#00BCD4,#3CC49A 50%,#7ED321)' }}>
+                Sell everywhere.
+              </span>
+            </motion.h1>
+
+            {/* Sub */}
+            <motion.p {...FADE_UP(0.32)} className="text-lg text-white/55 leading-relaxed mb-10 max-w-lg">
+              Your customers browse, order &amp; pay — on WhatsApp, Instagram, or your web store. One AI-powered backend. Unlimited reach.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div {...FADE_UP(0.42)} className="flex flex-wrap gap-3 mb-14">
+              <a
+                href="https://cal.com/rabeeh0ta/mypeedika-demo"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#07090A] px-6 py-3 rounded-full"
+                style={{ background: 'linear-gradient(135deg,#00BCD4,#3CC49A 55%,#7ED321)' }}
+              >
+                Book a free call
+              </a>
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-white px-6 py-3 rounded-full border border-white/[0.14] hover:bg-white/[0.05] transition-colors"
+              >
+                Start free trial →
+              </a>
+            </motion.div>
+
+            {/* Integrations row */}
+            <motion.div {...FADE_UP(0.52)}>
+              <p className="text-[11px] uppercase tracking-[3px] text-white/25 mb-3">Integrates with</p>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-white/40 text-sm">
+                <span className="flex items-center gap-1.5"><SiRazorpay className="w-4 h-4" />Razorpay</span>
+                <span className="flex items-center gap-1.5"><SiPhonepe className="w-4 h-4" />PhonePe</span>
+                <span className="flex items-center gap-1.5"><SiStripe className="w-4 h-4" />Stripe</span>
+                <span className="flex items-center gap-1.5"><SiPaytm className="w-4 h-4" />Paytm</span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right — chat mockup */}
+          <div className="hidden lg:flex items-center justify-center pr-8 xl:pr-16">
+            <ChatMockup />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom peek strip */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+        className="border-t border-white/[0.06] px-6 py-4"
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-[#0E1114] border border-white/[0.07] rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <p className="text-[11px] uppercase tracking-[2.5px] text-white/35 mb-1">Peek</p>
+              <h3 className="text-white text-base font-semibold">Agentic Ecommerce — coming soon</h3>
+              <p className="text-white/45 text-sm mt-0.5">Autonomous AI agents that handle catalog, leads and conversions on their own.</p>
+            </div>
+            <a
+              href="#"
+              className="shrink-0 inline-flex items-center text-sm font-semibold text-white border border-white/[0.12] px-5 py-2.5 rounded-full hover:bg-white/[0.06] transition-colors whitespace-nowrap"
+            >
+              Join waitlist →
+            </a>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}

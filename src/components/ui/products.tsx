@@ -1,71 +1,91 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Bot, Globe, Smartphone } from 'lucide-react'
-import { ReactNode } from 'react'
+const products = [
+  {
+    label: 'Chat Commerce',
+    headline: 'Sell through\nany messenger.',
+    body: 'AI replies instantly on WhatsApp and Instagram, understands vernacular, shares product cards, and closes orders in-chat — without a human agent.',
+    emoji: '💬',
+    accent: '#00BCD4',
+    stats: [{ value: '< 2s', label: 'Reply time' }, { value: '24/7', label: 'Coverage' }],
+  },
+  {
+    label: 'Web Store',
+    headline: 'Your brand.\nYour store.',
+    body: 'Launch a fully customised Shopify storefront. Beautiful design, fast checkout, SEO-ready — built to convert browsers into buyers.',
+    emoji: '🌐',
+    accent: '#3CC49A',
+    stats: [{ value: '7 days', label: 'Go-live' }, { value: '100%', label: 'Branded' }],
+  },
+  {
+    label: 'Mobile App',
+    headline: 'Native apps.\nYour way.',
+    body: 'Reach mobile-first customers with beautiful iOS and Android apps, shipped to the app stores and branded exactly to your identity.',
+    emoji: '📱',
+    accent: '#7ED321',
+    stats: [{ value: 'iOS + Android', label: 'Platforms' }, { value: '4.8★', label: 'Avg rating' }],
+  },
+];
 
 export function Products() {
-    return (
-        <section className="bg-zinc-50 py-12 md:py-20 dark:bg-transparent">
-            <div className="@container mx-auto max-w-5xl px-6">
-                <div className="text-center">
-                    <h2 className="text-balance text-4xl font-semibold lg:text-5xl">Sell Anywhere Suite</h2>
-                    <p className="mt-4">Everything you need to sell everywhere — connected, consistent, and powered by AI.
-                    </p>
-                </div>
-                <div className="@min-4xl:max-w-full @min-4xl:grid-cols-3 mx-auto mt-8 grid max-w-sm gap-6 *:text-center md:mt-16">
-                    <Card className="group shadow-black-950/5">
-                        <CardHeader className="pb-3">
-                            <CardDecorator>
-                                <Bot className="size-6" aria-hidden />
-                            </CardDecorator>
+  return (
+    <section className="py-28 md:py-36" style={{ background: '#07090A' }}>
+      <div className="max-w-7xl mx-auto px-6">
 
-                            <h2 className="mt-3 font-semibold">Agentic Chat</h2>
-                        </CardHeader>
+        {/* Header */}
+        <div className="max-w-2xl mb-20">
+          <p className="text-xs font-semibold uppercase tracking-[3px] text-[#3CC49A] mb-5">
+            The platform
+          </p>
+          <h2 className="text-[44px] sm:text-[56px] font-bold text-white leading-[1.05] tracking-[-2px] mb-6">
+            One backend.<br />Every channel.
+          </h2>
+          <p className="text-lg text-white/50 leading-relaxed">
+            Everything connected, consistent, and powered by AI — no matter where your customers shop.
+          </p>
+        </div>
 
-                        <CardContent>
-                            <p className="text-sm">Sell through Instagram, WhatsApp, or any messenger. AI replies instantly, understands vernacular, and handles checkout in‑chat.</p>
-                        </CardContent>
-                    </Card>
+        {/* Product cards */}
+        <div className="grid md:grid-cols-3 gap-5">
+          {products.map((p) => (
+            <div
+              key={p.label}
+              className="group rounded-3xl border border-white/[0.07] p-7 flex flex-col transition-colors duration-200 hover:border-white/[0.15]"
+              style={{ background: '#0E1114' }}
+            >
+              {/* Emoji icon with glow */}
+              <div
+                className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-lg"
+                style={{ background: `${p.accent}18`, border: `1px solid ${p.accent}30` }}
+              >
+                {p.emoji}
+              </div>
 
-                    <Card className="group shadow-black-950/5">
-                        <CardHeader className="pb-3">
-                            <CardDecorator>
-                                <Globe className="size-6" aria-hidden />
-                            </CardDecorator>
+              <p className="text-[11px] font-semibold uppercase tracking-[2.5px] mb-3" style={{ color: p.accent }}>
+                {p.label}
+              </p>
 
-                            <h2 className="mt-3 font-semibold">Web Store</h2>
-                        </CardHeader>
+              <h3
+                className="text-2xl font-bold text-white leading-tight tracking-tight mb-4 whitespace-pre-line"
+              >
+                {p.headline}
+              </h3>
 
-                        <CardContent>
-                            <p className="text-sm">Launch a stunning, fully‑customised online store. Your style, your theme, your brand — built to convert.</p>
-                        </CardContent>
-                    </Card>
+              <p className="text-white/50 text-sm leading-relaxed mb-8 flex-grow">{p.body}</p>
 
-                    <Card className="group shadow-black-950/5">
-                        <CardHeader className="pb-3">
-                            <CardDecorator>
-                                <Smartphone className="size-6" aria-hidden />
-                            </CardDecorator>
-
-                            <h2 className="mt-3 font-semibold">Native Mobile Apps</h2>
-                        </CardHeader>
-
-                        <CardContent>
-                            <p className="text-sm">Reach mobile‑first customers with beautiful iOS and Android apps. Branded your way and shipped to the stores.</p>
-                        </CardContent>
-                    </Card>
-                </div>
+              {/* Stats row */}
+              <div className="flex gap-6 pt-6 border-t border-white/[0.07]">
+                {p.stats.map((s) => (
+                  <div key={s.label}>
+                    <p className="text-white text-base font-bold">{s.value}</p>
+                    <p className="text-white/35 text-xs mt-0.5">{s.label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-        </section>
-    )
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 
-const CardDecorator = ({ children }: { children: ReactNode }) => (
-    <div aria-hidden className="relative mx-auto size-36 [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]">
-        <div className="absolute inset-0 [--border:black] dark:[--border:white] bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:24px_24px] opacity-10"/>
-        <div className="bg-background absolute inset-0 m-auto flex size-12 items-center justify-center border-t border-l">{children}</div>
-    </div>
-)
-
-export default Products
-
-
+export default Products;
