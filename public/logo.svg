@@ -1,5 +1,26 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-labelledby="title desc" width="128" height="128">
-  <title id="title">E-commerce Logo</title>
-  <desc id="desc">Minimal shopping bag logo in bright green</desc>
-  <path fill="#11F1A0" d="M9 6H15C15 4.34315 13.6569 3 12 3C10.3431 3 9 4.34315 9 6ZM7 6C7 3.23858 9.23858 1 12 1C14.7614 1 17 3.23858 17 6H20C20.5523 6 21 6.44772 21 7V21C21 21.5523 20.5523 22 20 22H4C3.44772 22 3 21.5523 3 21V7C3 6.44772 3.44772 6 4 6H7ZM5 8V20H19V8H5ZM9 10C9 11.6569 10.3431 13 12 13C13.6569 13 15 11.6569 15 10H17C17 12.7614 14.7614 15 12 15C9.23858 15 7 12.7614 7 10H9Z"/>
+<svg width="192" height="44" viewBox="0 0 192 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="disc-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#15a89a"/>
+      <stop offset="100%" stop-color="#3edd5c"/>
+    </linearGradient>
+    <filter id="disc-shadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#15a89a" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <!-- Disc -->
+  <circle cx="22" cy="22" r="22" fill="url(#disc-grad)" filter="url(#disc-shadow)"/>
+
+  <!-- Lucide ShoppingBag: 24x24 scaled to 14x14, centered at (22,22) -->
+  <g transform="translate(15,15) scale(0.583)" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <path d="M16 10a4 4 0 01-8 0"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="54" y="28.5" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" fill="#0a0d0c" font-size="19.5" letter-spacing="-0.4">
+    <tspan font-weight="500">my</tspan><tspan font-weight="700">Peedika</tspan>
+  </text>
 </svg>

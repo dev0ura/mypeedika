@@ -26,7 +26,7 @@ export default function HowItWorks() {
 
         {/* Section header */}
         <div className="grid grid-cols-[200px_1fr] gap-16 items-baseline mb-16 max-md:grid-cols-1 max-md:gap-6">
-          <p className="display grad-text" style={{ fontSize: 88, lineHeight: 0.9 }}>02</p>
+          <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9 }}>02</p>
           <div>
             <h2 className="display" style={{ fontSize: "clamp(36px,5vw,56px)", color: "var(--paper)", marginBottom: 16 }}>
               How it works
@@ -46,7 +46,7 @@ export default function HowItWorks() {
               style={{ borderColor: "var(--ink-border)" }}
             >
               <p
-                className="display grad-text"
+                className="display grad-num"
                 style={{ fontSize: 56, lineHeight: 1, marginBottom: 24 }}
               >
                 {step.n}
