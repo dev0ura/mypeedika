@@ -10,7 +10,7 @@ export default function CTABanner() {
               style={{ fontSize: "clamp(48px,7vw,96px)", color: "var(--paper)", lineHeight: 0.88, marginBottom: 20 }}
             >
               Let&apos;s build your{" "}
-              <span className="grad-text">Shopify store.</span>
+              <span style={{ color: "var(--teal)" }}>Shopify store.</span>
             </h2>
             <p style={{ fontSize: 17, color: "var(--ink-subtle)", lineHeight: 1.6, maxWidth: 480 }}>
               Book a free 20-minute call. We&apos;ll understand your business and give you a clear quote — no pressure, no jargon.

@@ -5,8 +5,11 @@ import CTABanner from "@/components/ui/cta-banner";
 import PortfolioGrid from "@/components/ui/portfolio-grid";
 
 export const metadata: Metadata = {
-  title: "Our Work — Shopify Stores We've Built | myPeedika",
+  title: "Our Work — Shopify Stores We've Built",
   description: "See the Shopify stores we've designed and built for Indian businesses. Real results, real stores. 100+ stores launched.",
+  keywords: ["shopify stores india examples", "shopify store portfolio india", "shopify work india"],
+  alternates: { canonical: "https://www.mypeedika.com/portfolio" },
+  openGraph: { url: "https://www.mypeedika.com/portfolio" },
 };
 
 export default function PortfolioPage() {
@@ -18,7 +21,7 @@ export default function PortfolioPage() {
       <section style={{ background: "var(--ink)", padding: "88px 0", borderBottom: "1px solid var(--ink-border)" }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-14">
           <div className="grid grid-cols-[200px_1fr] gap-16 items-baseline max-md:grid-cols-1 max-md:gap-6">
-            <p className="display grad-text" style={{ fontSize: 88, lineHeight: 0.9 }}>Work</p>
+            <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9 }}>Work</p>
             <div>
               <h1 className="display" style={{ fontSize: "clamp(40px,6vw,72px)", color: "var(--paper)", marginBottom: 20 }}>
                 Stores we&apos;ve built

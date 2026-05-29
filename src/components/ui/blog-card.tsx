@@ -26,14 +26,14 @@ export default function BlogCard({ post, featured = false }: { post: BlogPost; f
           {/* Ambient glow */}
           <div style={{
             position: "absolute", top: -60, right: -60, width: 240, height: 240,
-            background: "radial-gradient(circle, rgba(21,168,154,0.12) 0%, transparent 70%)",
+            background: "radial-gradient(circle, var(--teal-12) 0%, transparent 70%)",
             pointerEvents: "none",
           }} />
 
           <div className="flex items-center gap-3 mb-6">
             <span
               className="micro"
-              style={{ color: "var(--teal)", background: "rgba(21,168,154,0.12)", padding: "4px 12px", borderRadius: 999 }}
+              style={{ color: "var(--teal)", background: "var(--teal-12)", padding: "4px 12px", borderRadius: 999 }}
             >
               {post.category}
             </span>

@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local working / client docs & design source files (kept on disk, not committed)
+/_local/

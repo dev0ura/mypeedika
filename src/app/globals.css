@@ -3,11 +3,11 @@
 
 @theme inline {
   --font-display: var(--font-anton);
-  --font-sans: var(--font-space);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-border: var(--rule);
-  --color-muted: var(--mist);
+  --font-sans:    var(--font-space);
+  --color-background:       var(--background);
+  --color-foreground:       var(--foreground);
+  --color-border:           var(--rule);
+  --color-muted:            var(--mist);
   --color-muted-foreground: var(--muted-color);
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -15,7 +15,7 @@
 }
 
 :root {
-  /* Brand tokens — exact from brand identity */
+  /* ── Brand palette ───────────────────────────────────────── */
   --ink:    #0a0d0c;
   --paper:  #fafaf7;
   --mist:   #f1f2ee;
@@ -26,23 +26,39 @@
   --grad:   linear-gradient(135deg, #15a89a 0%, #3edd5c 100%);
   --grad-h: linear-gradient(90deg,  #15a89a 0%, #3edd5c 100%);
 
-  /* Dark section palette */
+  /* ── Teal tints (avoid repeating raw rgba everywhere) ───── */
+  --teal-06:  rgba(21,168,154,0.06);
+  --teal-08:  rgba(21,168,154,0.08);
+  --teal-10:  rgba(21,168,154,0.10);
+  --teal-12:  rgba(21,168,154,0.12);
+  --teal-18:  rgba(21,168,154,0.18);
+  --teal-30:  rgba(21,168,154,0.30);
+  --teal-40:  rgba(21,168,154,0.40);
+
+  /* ── Dark section palette ───────────────────────────────── */
   --ink-surface: #111714;
   --ink-border:  #1a1f1d;
   --ink-muted:   #8a938f;
   --ink-subtle:  #c8cfcc;
 
-  /* Semantic aliases */
+  /* ── Semantic aliases ───────────────────────────────────── */
   --background: var(--paper);
   --foreground: var(--ink);
 }
 
+/* ── Base ────────────────────────────────────────────────── */
 @layer base {
-  * { box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; }
 
-  html, body {
+  html {
+    /* offset for fixed floating navbar (14px top + 52px pill + 8px gap) */
+    scroll-padding-top: 88px;
+  }
+
+  body {
     margin: 0;
     padding: 0;
+    padding-top: 74px;
     background: var(--paper);
     color: var(--ink);
     font-family: var(--font-space, 'Space Grotesk', system-ui, sans-serif);
@@ -50,7 +66,14 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Display face — Anton, always uppercase */
+  /* Focus — always visible, brand-colored ring */
+  :focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Display face */
   .display {
     font-family: var(--font-anton, 'Anton', sans-serif);
     font-weight: 400;
@@ -59,15 +82,15 @@
     line-height: 0.9;
   }
 
-  /* Gradient text utility */
-  .grad-text {
+  /* Gradient on large display numerals (brand identity system) */
+  .grad-num {
     background: var(--grad-h);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  /* Micro label — eyebrow text */
+  /* Micro label */
   .micro {
     font-size: 11px;
     letter-spacing: 0.18em;
@@ -77,10 +100,14 @@
   }
 }
 
+/* ── Utilities ──────────────────────────────────────────── */
 @layer utilities {
   .text-balance { text-wrap: balance; }
+  .text-ink    { color: var(--ink); }
+  .text-teal   { color: var(--teal); }
+  .text-muted  { color: var(--muted-color); }
 
-  /* Pill button — primary */
+  /* Pill — primary (gradient bg, white text) */
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -91,17 +118,22 @@
     font-size: 14px;
     padding: 12px 24px;
     border-radius: 999px;
-    transition: opacity 0.15s, box-shadow 0.15s;
+    transition: opacity .15s, box-shadow .15s;
     text-decoration: none;
     border: none;
     cursor: pointer;
+    white-space: nowrap;
   }
   .btn-primary:hover {
-    opacity: 0.92;
-    box-shadow: 0 8px 24px -8px rgba(21,168,154,0.5);
+    opacity: .92;
+    box-shadow: 0 8px 24px -8px rgba(21,168,154,.5);
+  }
+  .btn-primary:focus-visible {
+    outline: 2px solid var(--teal);
+    outline-offset: 3px;
   }
 
-  /* Pill button — ghost on dark */
+  /* Pill — ghost on dark */
   .btn-ghost-dark {
     display: inline-flex;
     align-items: center;
@@ -111,15 +143,16 @@
     font-size: 14px;
     padding: 11px 24px;
     border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.18);
-    transition: background 0.15s;
+    border: 1px solid rgba(255,255,255,.18);
+    transition: background .15s;
     text-decoration: none;
     background: transparent;
     cursor: pointer;
+    white-space: nowrap;
   }
-  .btn-ghost-dark:hover { background: rgba(255,255,255,0.07); }
+  .btn-ghost-dark:hover { background: rgba(255,255,255,.07); }
 
-  /* Pill button — outline on light */
+  /* Pill — outline on light */
   .btn-outline {
     display: inline-flex;
     align-items: center;
@@ -130,13 +163,46 @@
     padding: 11px 24px;
     border-radius: 999px;
     border: 1px solid var(--rule);
-    transition: border-color 0.15s, background 0.15s;
+    transition: border-color .15s, background .15s;
     text-decoration: none;
     background: transparent;
     cursor: pointer;
+    white-space: nowrap;
   }
   .btn-outline:hover {
     border-color: #c8cfcc;
     background: var(--mist);
   }
+
+  /* ── Blog / article prose ──────────────────────────────── */
+  .article-body {
+    font-size: 16px;
+    line-height: 1.78;
+    color: #2b302e;
+    max-width: 68ch;
+  }
+  .article-body h2 {
+    font-family: var(--font-anton, 'Anton', sans-serif);
+    font-size: clamp(20px, 2.5vw, 28px);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    color: var(--ink);
+    margin: 48px 0 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule);
+  }
+  .article-body h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 28px 0 10px;
+    line-height: 1.3;
+  }
+  .article-body p { margin: 0 0 18px; }
+  .article-body ul,
+  .article-body ol  { padding-left: 20px; margin: 0 0 18px; }
+  .article-body li  { margin-bottom: 6px; }
+  .article-body strong { color: var(--ink); font-weight: 700; }
+  .article-body a { color: var(--teal); }
 }

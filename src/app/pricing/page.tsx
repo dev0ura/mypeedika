@@ -4,8 +4,11 @@ import Footer from "@/components/ui/footer";
 import CTABanner from "@/components/ui/cta-banner";
 
 export const metadata: Metadata = {
-  title: "Shopify Store Pricing for Indian Businesses | myPeedika",
+  title: "Shopify Store Pricing for Indian Businesses",
   description: "Transparent pricing for Shopify store setup, maintenance, and support in India. No hidden fees. Starting from ₹15,000 one-time setup.",
+  keywords: ["shopify store cost india", "shopify pricing india", "shopify setup cost india", "how much shopify store india"],
+  alternates: { canonical: "https://www.mypeedika.com/pricing" },
+  openGraph: { url: "https://www.mypeedika.com/pricing" },
 };
 
 const plans = [
@@ -71,7 +74,7 @@ export default function PricingPage() {
       <section style={{ background: "var(--ink)", padding: "88px 0", borderBottom: "1px solid var(--ink-border)" }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-14">
           <div className="grid grid-cols-[200px_1fr] gap-16 items-baseline max-md:grid-cols-1 max-md:gap-6">
-            <p className="display grad-text" style={{ fontSize: 88, lineHeight: 0.9 }}>Price</p>
+            <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9 }}>Price</p>
             <div>
               <h1 className="display" style={{ fontSize: "clamp(40px,6vw,72px)", color: "var(--paper)", marginBottom: 20 }}>
                 Simple, honest pricing

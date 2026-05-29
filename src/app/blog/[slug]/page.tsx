@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/ui/navbar";
 import Footer from "@/components/ui/footer";
 import CTABanner from "@/components/ui/cta-banner";
+import JsonLd from "@/components/json-ld";
 import { blogPosts } from "@/data/blog-posts";
 
 import HowToStartOnlineStoreIndia from "../posts/how-to-start-online-store-india";
@@ -27,7 +28,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
   if (!post) return {};
-  return { title: post.metaTitle, description: post.metaDescription };
+  const url = `https://www.mypeedika.com/blog/${post.slug}`;
+  return {
+    title: post.metaTitle,
+    description: post.metaDescription,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title: post.metaTitle,
+      description: post.metaDescription,
+      publishedTime: post.publishedAt,
+      authors: ["myPeedika"],
+      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    },
+    twitter: { card: "summary_large_image", title: post.metaTitle, description: post.metaDescription },
+  };
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -38,8 +54,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const PostContent = postComponents[slug];
   if (!PostContent) notFound();
 
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    author: { "@type": "Organization", name: "myPeedika", url: "https://www.mypeedika.com" },
+    publisher: { "@type": "Organization", name: "myPeedika", logo: { "@type": "ImageObject", url: "https://www.mypeedika.com/logo.png" } },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://www.mypeedika.com/blog/${post.slug}` },
+    image: "https://www.mypeedika.com/og-image.png",
+    inLanguage: "en-IN",
+  };
+
   return (
     <div style={{ background: "var(--paper)" }}>
+      <JsonLd data={articleSchema} />
       <Navbar />
 
       {/* Article header — dark */}
@@ -47,7 +78,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="max-w-[1280px] mx-auto px-6 md:px-14">
           <div style={{ maxWidth: 720 }}>
             <div className="flex items-center gap-3 mb-6">
-              <span className="micro" style={{ color: "var(--teal)", background: "rgba(21,168,154,0.12)", padding: "4px 12px", borderRadius: 999 }}>
+              <span className="micro" style={{ color: "var(--teal)", background: "var(--teal-12)", padding: "4px 12px", borderRadius: 999 }}>
                 {post.category}
               </span>
               <span className="micro" style={{ color: "var(--ink-muted)" }}>{post.readTime}</span>
@@ -74,36 +105,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="grid lg:grid-cols-[1fr_280px] gap-16 items-start">
 
             {/* Article content */}
-            <article
-              style={{
-                fontSize: 16,
-                lineHeight: 1.75,
-                color: "#2b302e",
-              }}
-            >
-              <style>{`
-                article h2 {
-                  font-family: var(--font-anton, Anton, sans-serif);
-                  font-size: clamp(22px, 2.5vw, 30px);
-                  text-transform: uppercase;
-                  letter-spacing: 0.01em;
-                  line-height: 1;
-                  color: #0a0d0c;
-                  margin: 40px 0 16px;
-                }
-                article h3 {
-                  font-family: var(--font-space, sans-serif);
-                  font-size: 18px;
-                  font-weight: 700;
-                  color: #0a0d0c;
-                  margin: 28px 0 10px;
-                }
-                article p { margin: 0 0 18px; }
-                article ul, article ol { padding-left: 20px; margin: 0 0 18px; }
-                article li { margin-bottom: 6px; }
-                article strong { color: #0a0d0c; font-weight: 700; }
-                article a { color: #15a89a; }
-              `}</style>
+            <article className="article-body">
               <PostContent />
             </article>
 
@@ -119,7 +121,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                   overflow: "hidden",
                 }}
               >
-                <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, background: "radial-gradient(circle, rgba(21,168,154,0.18) 0%, transparent 70%)", pointerEvents: "none" }} />
+                <div style={{ position: "absolute", top: -30, right: -30, width: 120, height: 120, background: "radial-gradient(circle, var(--teal-18) 0%, transparent 70%)", pointerEvents: "none" }} />
                 <p className="display" style={{ fontSize: 20, color: "var(--paper)", marginBottom: 10 }}>
                   Ready to start?
                 </p>

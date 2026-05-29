@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/ui/navbar";
 import Footer from "@/components/ui/footer";
 import CTABanner from "@/components/ui/cta-banner";
+import JsonLd from "@/components/json-ld";
 import { services } from "@/data/services";
 import {
   Store, Layout, Wrench, ArrowRightLeft, CreditCard, Headphones,
@@ -18,20 +19,42 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export const metadata: Metadata = {
-  title: "Shopify Services for Indian Businesses | myPeedika",
-  description: "New store setup, redesign, store fix, migration, payment setup, and ongoing support. Complete Shopify services for Indian businesses.",
+  title: "Shopify Services for Indian Businesses",
+  description: "New store setup, redesign, store fix, migration, payment setup, and ongoing support. Complete Shopify services for Indian businesses. Starting from ₹15,000.",
+  keywords: ["shopify store setup india", "shopify redesign india", "shopify migration india", "shopify fix india", "shopify developer kerala"],
+  alternates: { canonical: "https://www.mypeedika.com/services" },
+  openGraph: { url: "https://www.mypeedika.com/services" },
+};
+
+const serviceListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Shopify Services by myPeedika",
+  itemListElement: services.map((s, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "Service",
+      name: s.title,
+      description: s.description,
+      provider: { "@type": "Organization", name: "myPeedika", url: "https://www.mypeedika.com" },
+      areaServed: "India",
+      url: `https://www.mypeedika.com/services#${s.id}`,
+    },
+  })),
 };
 
 export default function ServicesPage() {
   return (
     <div style={{ background: "var(--paper)" }}>
+      <JsonLd data={serviceListSchema} />
       <Navbar />
 
       {/* Header — dark */}
       <section style={{ background: "var(--ink)", padding: "88px 0", borderBottom: "1px solid var(--ink-border)" }}>
         <div className="max-w-[1280px] mx-auto px-6 md:px-14">
           <div className="grid grid-cols-[200px_1fr] gap-16 items-baseline max-md:grid-cols-1 max-md:gap-6">
-            <p className="display grad-text" style={{ fontSize: 88, lineHeight: 0.9 }}>01</p>
+            <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9 }}>01</p>
             <div>
               <h1 className="display" style={{ fontSize: "clamp(40px,6vw,72px)", color: "var(--paper)", marginBottom: 20 }}>
                 Services
@@ -62,7 +85,7 @@ export default function ServicesPage() {
                 {/* Left */}
                 <div style={{ padding: "40px 40px", borderRight: "1px solid var(--rule)", borderBottom: "1px solid var(--rule)" }} className="lg:border-b-0">
                   {(() => { const Icon = iconMap[s.icon]; return Icon ? (
-                    <div style={{ width: 48, height: 48, borderRadius: 10, background: "rgba(21,168,154,0.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
+                    <div style={{ width: 48, height: 48, borderRadius: 10, background: "var(--teal-08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 20 }}>
                       <Icon size={22} strokeWidth={1.75} style={{ color: "var(--teal)" }} />
                     </div>
                   ) : null; })()}
@@ -90,7 +113,7 @@ export default function ServicesPage() {
                   <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px" }}>
                     {s.includes.map((item) => (
                       <li key={item} className="flex items-start gap-3 mb-3.5">
-                        <span style={{ width: 20, height: 20, borderRadius: "50%", background: "rgba(21,168,154,0.12)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 10, color: "var(--teal)", fontWeight: 700, marginTop: 1 }}>✓</span>
+                        <span style={{ width: 20, height: 20, borderRadius: "50%", background: "var(--teal-12)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 10, color: "var(--teal)", fontWeight: 700, marginTop: 1 }}>✓</span>
                         <span style={{ fontSize: 15, color: "#2b302e", lineHeight: 1.5 }}>{item}</span>
                       </li>
                     ))}

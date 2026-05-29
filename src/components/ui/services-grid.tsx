@@ -22,7 +22,7 @@ export default function ServicesGrid() {
 
         {/* Section header */}
         <div className="grid grid-cols-[200px_1fr] gap-16 items-baseline mb-14 max-md:grid-cols-1 max-md:gap-6">
-          <p className="display grad-text" style={{ fontSize: 88, lineHeight: 0.9 }}>01</p>
+          <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9 }}>01</p>
           <div>
             <h2 className="display" style={{ fontSize: "clamp(36px,5vw,56px)", color: "var(--ink)", marginBottom: 16 }}>
               What we do
@@ -46,7 +46,7 @@ export default function ServicesGrid() {
               {s.badge && (
                 <span
                   className="absolute top-4 right-4 micro"
-                  style={{ color: "var(--teal)", background: "rgba(21,168,154,0.08)", padding: "4px 10px", borderRadius: 999, letterSpacing: "0.12em" }}
+                  style={{ color: "var(--teal)", background: "var(--teal-08)", padding: "4px 10px", borderRadius: 999, letterSpacing: "0.12em" }}
                 >
                   {s.badge}
                 </span>
@@ -56,7 +56,7 @@ export default function ServicesGrid() {
                 <div
                   style={{
                     width: 40, height: 40, borderRadius: 8, marginBottom: 20,
-                    background: "rgba(21,168,154,0.08)",
+                    background: "var(--teal-08)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                   }}
                 >

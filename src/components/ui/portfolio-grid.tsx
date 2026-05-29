@@ -27,7 +27,7 @@ function ClientCard({ client, large = false }: { client: Client; large?: boolean
       <div
         style={{
           height: large ? 280 : 200,
-          background: "linear-gradient(135deg, rgba(21,168,154,0.08) 0%, rgba(62,221,92,0.08) 100%)",
+          background: "linear-gradient(135deg, var(--teal-08) 0%, rgba(62,221,92,0.08) 100%)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -100,7 +100,7 @@ export default function PortfolioGrid({ preview = false }: { preview?: boolean }
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14">
           <div>
             <div className="grid grid-cols-[200px_1fr] gap-16 items-baseline max-md:grid-cols-1 max-md:gap-4">
-              <p className="display grad-text" style={{ fontSize: 88, lineHeight: 0.9 }}>03</p>
+              <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9 }}>03</p>
               <div>
                 <h2 className="display" style={{ fontSize: "clamp(36px,5vw,56px)", color: "var(--ink)", marginBottom: 12 }}>
                   Our work

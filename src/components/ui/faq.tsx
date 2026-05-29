@@ -47,7 +47,7 @@ export default function FAQ() {
           {/* Left */}
           <div>
             <div className="mb-8">
-              <p className="display grad-text" style={{ fontSize: 88, lineHeight: 0.9, marginBottom: 16 }}>04</p>
+              <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9, marginBottom: 16 }}>04</p>
               <h2 className="display" style={{ fontSize: "clamp(32px,4vw,48px)", color: "var(--ink)", marginBottom: 16 }}>
                 Questions
               </h2>
