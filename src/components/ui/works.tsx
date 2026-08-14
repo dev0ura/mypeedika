@@ -20,7 +20,7 @@ export default function Works({ heading = true }: { heading?: boolean }) {
                   we built
                 </>
               }
-              blurb="Both are live right now. Open them, poke around, check them on your phone — that is the only review that matters."
+              blurb="Both are live right now. Open them, poke around, check them on your phone. That is the only review that matters."
             />
           </Reveal>
         )}

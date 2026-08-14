@@ -13,7 +13,7 @@ const figtree = Figtree({
 const BASE_URL = "https://www.mypeedika.com";
 
 const DESCRIPTION =
-  "We build Shopify stores for businesses across India and the Gulf. Store design, speed, apps, and migrations — plus our own Shopify apps.";
+  "We build Shopify stores for small businesses across India and the Gulf. New stores, redesigns, speed fixes and migrations.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "myPeedika — we build Shopify stores",
+        alt: "myPeedika, we build Shopify stores",
       },
     ],
   },

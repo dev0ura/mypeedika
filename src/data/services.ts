@@ -11,7 +11,7 @@ export const services: Service[] = [
     id: "store-design",
     title: "Store design",
     description:
-      "Premium themes set up properly — your products, your brand, your layout. Not a demo store with the pictures swapped out.",
+      "A premium theme set up properly around your products, your brand and your layout. Not a demo store with the pictures swapped out.",
   },
   {
     id: "speed",

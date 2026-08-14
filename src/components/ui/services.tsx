@@ -17,7 +17,7 @@ export default function Services() {
               </h2>
               <p className="t-body" style={{ maxInlineSize: "32ch", marginBlockEnd: 28 }}>
                 Four things, done properly. If what you need is not on this list,
-                ask — it is usually some combination of them.
+                ask. It is usually some combination of them.
               </p>
               <a
                 href={CONTACT.whatsapp}

@@ -33,7 +33,7 @@ export default function CTABanner() {
                 style={{ maxInlineSize: "40ch", marginInline: "auto", marginBlockEnd: 32 }}
               >
                 Tell us what you sell and where you are stuck. We will tell you
-                what it takes — honestly, before you pay anything.
+                honestly what it takes, before you pay anything.
               </p>
               <div
                 className="flex flex-wrap items-center justify-center"

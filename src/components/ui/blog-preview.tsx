@@ -13,7 +13,7 @@ export default function BlogPreview() {
         <Reveal>
           <SectionHeading
             title="Blog"
-            blurb="Plain-English guides on selling online — written for people running the business, not the website."
+            blurb="Plain English guides on selling online, written for the people running the business rather than the website."
           />
         </Reveal>
 

@@ -25,7 +25,7 @@ export const works: Work[] = [
     name: "Zehar Baby Store",
     category: "Baby & kids",
     description:
-      "A baby store organised the way parents actually shop — browsing straight into 0–3, 3–6, 6–12 and 12–18 months rather than hunting through a catalogue.",
+      "A baby store organised the way parents actually shop. They go straight to 0-3, 3-6, 6-12 or 12-18 months instead of hunting through a catalogue.",
     url: "https://zeharbabystore.com/",
     screenshot: "/works/zehar.webp",
   },

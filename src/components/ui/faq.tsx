@@ -19,7 +19,7 @@ export default function FAQ() {
               FAQ
             </h2>
             <p className="t-body" style={{ maxInlineSize: "30ch", marginBlockEnd: 24 }}>
-              Not answered here? Ask us on WhatsApp — you will get a real reply,
+              Not answered here? Ask us on WhatsApp. You will get a real reply,
               usually the same day.
             </p>
             <a

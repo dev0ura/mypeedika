@@ -13,10 +13,10 @@ export default function Hero() {
 
             <p
               className="t-lead"
-              style={{ maxInlineSize: "38ch", marginBlockEnd: 36 }}
+              style={{ maxInlineSize: "34ch", marginBlockEnd: 36 }}
             >
-              Design, speed, apps, and migrations for merchants across India and
-              the Gulf. You sell — we keep the storefront out of your way.
+              Your customers can buy on their own instead of waiting for you to
+              reply.
             </p>
 
             <div className="flex flex-wrap items-center" style={{ gap: 12 }}>

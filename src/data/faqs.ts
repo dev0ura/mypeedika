@@ -17,7 +17,7 @@ export const faqs: FAQ[] = [
   {
     question: "Do you work with businesses outside India?",
     answer:
-      "Yes — we work with businesses across India and the Gulf. Everything runs over WhatsApp and calls, so where you are matters less than whether our hours overlap enough to get you answers the same day.",
+      "Yes. We work with businesses across India and the Gulf. Everything runs over WhatsApp and calls, so where you are matters less than whether our hours overlap enough to get you answers the same day.",
   },
   {
     question: "I already have a store and it is a mess. Can you fix it?",
@@ -32,7 +32,7 @@ export const faqs: FAQ[] = [
   {
     question: "What happens after the store goes live?",
     answer:
-      "You own everything — the store, the domain, the accounts. Nothing is locked to us. If you want us to stay on for changes and upkeep we can, and if you would rather run it yourself we will show you how.",
+      "You own all of it. The store, the domain and the accounts stay in your name, and nothing is locked to us. If you want us to stay on for changes and upkeep we can, and if you would rather run it yourself we will show you how.",
   },
   {
     question: "What does it cost?",
