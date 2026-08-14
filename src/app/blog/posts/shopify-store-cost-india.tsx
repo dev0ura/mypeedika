@@ -94,11 +94,11 @@ export default function ShopifyStoreCostIndia() {
       <ul>
         <li>Shopify Basic plan (annual): ~₹19,152</li>
         <li>Domain name (.in): ~₹900</li>
-        <li>Store setup (myPeedika): ₹15,000</li>
+        <li>Professional store setup: varies by agency and by how much you need built</li>
         <li>Payment gateway fees: varies (e.g., 2% on ₹2 lakh in sales = ₹4,000)</li>
       </ul>
       <p>
-        <strong>Total first-year cost: approximately ₹35,000–₹40,000</strong> (excluding payment gateway fees, which depend on your sales)
+        <strong>Platform costs alone come to roughly ₹20,000 in year one</strong> (excluding setup and payment gateway fees, which depend on who builds it and on your sales)
       </p>
       <p>
         From year 2 onwards: approximately ₹20,000–₹22,000/year (just Shopify subscription + domain + any support).
@@ -108,7 +108,7 @@ export default function ShopifyStoreCostIndia() {
       <ul>
         <li><strong>Paid apps</strong>: Some apps from the Shopify App Store cost ₹500–₹2,000/month. Most stores don&apos;t need paid apps to start.</li>
         <li><strong>Email marketing tools</strong>: Klaviyo, Mailchimp etc. Free tiers available.</li>
-        <li><strong>Monthly support</strong>: If you want ongoing help managing your store, support plans start from ₹3,500/month.</li>
+        <li><strong>Monthly support</strong>: If you want ongoing help managing your store, most agencies offer a monthly plan.</li>
         <li><strong>Custom development</strong>: If you need custom features built, this costs extra.</li>
       </ul>
 
@@ -117,7 +117,7 @@ export default function ShopifyStoreCostIndia() {
         For most businesses, yes — absolutely. Consider this: a physical shop in a mid-sized city costs ₹20,000–₹50,000/month in rent alone. Your entire Shopify store costs ₹2,000–₹5,000/month and can reach customers across India.
       </p>
       <p>
-        Even if you sell just ₹30,000/month online, the ROI on a ₹15,000 setup cost is clear within the first month.
+        Even at ₹30,000/month in online sales, a one-time setup cost usually pays for itself within the first couple of months.
       </p>
 
       <h2>Want to know the exact cost for your store?</h2>

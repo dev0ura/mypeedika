@@ -61,3 +61,10 @@ export const blogPosts: BlogPost[] = [
     metaDescription: "Complete beginner's guide to selling products online in India. Learn about platforms, payments, shipping, GST, and how to get your first customers.",
   },
 ]
+
+/** Newest first. Does not mutate `blogPosts`. */
+export function postsByRecency(): BlogPost[] {
+  return [...blogPosts].sort(
+    (a, b) => +new Date(b.publishedAt) - +new Date(a.publishedAt),
+  );
+}

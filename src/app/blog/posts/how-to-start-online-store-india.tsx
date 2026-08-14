@@ -109,7 +109,7 @@ export default function HowToStartOnlineStoreIndia() {
       </p>
       <h3>How much does it cost to start an online store in India?</h3>
       <p>
-        The minimum costs are: Shopify plan (₹1,994/month), domain (₹1,000/year), and a payment gateway (₹0 to set up, ~2% per transaction). A professional setup by a service like myPeedika starts from ₹15,000 one-time.
+        The minimum costs are: Shopify plan (₹1,994/month), domain (₹1,000/year), and a payment gateway (₹0 to set up, ~2% per transaction). A professional setup is a one-time cost on top of that, and varies with how much you need built.
       </p>
 
       <h2>Need help setting up your store?</h2>

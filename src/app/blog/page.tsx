@@ -1,68 +1,90 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Navbar from "@/components/ui/navbar";
 import Footer from "@/components/ui/footer";
 import CTABanner from "@/components/ui/cta-banner";
 import BlogCard from "@/components/ui/blog-card";
-import { blogPosts } from "@/data/blog-posts";
+import CategoryPill from "@/components/ui/category-pill";
+import Reveal from "@/components/reveal";
+import { postsByRecency } from "@/data/blog-posts";
+import { SITE } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "Blog — Shopify & Online Selling Guides for India",
-  description: "Helpful guides on how to start, run, and grow your online store in India. Free tips on Shopify setup, payments, shipping, and more.",
-  keywords: ["shopify india guide", "start online store india", "sell online india tips", "ecommerce india blog"],
-  alternates: { canonical: "https://www.mypeedika.com/blog" },
-  openGraph: { url: "https://www.mypeedika.com/blog" },
+  title: "Blog",
+  description:
+    "Plain-English guides on selling online — Shopify setup, costs, migrations, and comparisons.",
+  alternates: { canonical: `${SITE.url}/blog` },
 };
 
-export default function BlogPage() {
-  const [featured, ...rest] = blogPosts;
+export default function BlogIndex() {
+  const [featured, ...rest] = postsByRecency();
 
   return (
-    <div style={{ background: "var(--paper)" }}>
+    <>
       <Navbar />
+      <main>
+        <section style={{ paddingBlock: "72px 48px" }}>
+          <div className="container">
+            <h1 className="t-hero" style={{ marginBlockEnd: 24 }}>
+              Blog
+            </h1>
+            <p className="t-lead" style={{ maxInlineSize: "46ch" }}>
+              Guides for people running the business, not the website. No jargon,
+              no upsells buried in the middle.
+            </p>
+          </div>
+        </section>
 
-      {/* Page header — dark */}
-      <section style={{ background: "var(--ink)", padding: "88px 0 0", borderBottom: "1px solid var(--ink-border)" }}>
-        <div className="max-w-[1280px] mx-auto px-6 md:px-14">
-          <div className="grid grid-cols-[200px_1fr] gap-16 items-baseline pb-16 max-md:grid-cols-1 max-md:gap-6">
-            <p className="display grad-num" style={{ fontSize: 88, lineHeight: 0.9 }}>Blog</p>
-            <div>
-              <h1 className="display" style={{ fontSize: "clamp(36px,5vw,64px)", color: "var(--paper)", marginBottom: 16 }}>
-                Free guides for Indian sellers
-              </h1>
-              <p style={{ fontSize: 17, color: "var(--ink-subtle)", lineHeight: 1.6, maxWidth: 480 }}>
-                Practical, plain-English articles to help you sell online in India — no jargon, no filler.
-              </p>
+        {/* Featured — editorial, not another card in the grid */}
+        <section style={{ paddingBlockEnd: 56 }}>
+          <div className="container">
+            <Reveal>
+              <Link
+                href={`/blog/${featured.slug}`}
+                className="card feat-card"
+                style={{ padding: "clamp(28px, 4vw, 56px)" }}
+              >
+                <CategoryPill style={{ alignSelf: "flex-start", marginBlockEnd: 24 }}>
+                  {featured.category}
+                </CategoryPill>
+                <h2
+                  className="t-section"
+                  style={{ maxInlineSize: "18ch", marginBlockEnd: 20 }}
+                >
+                  {featured.title}
+                </h2>
+                <p className="t-lead" style={{ maxInlineSize: "60ch", marginBlockEnd: 24 }}>
+                  {featured.excerpt}
+                </p>
+                <div className="flex items-center" style={{ gap: 16 }}>
+                  <span className="micro">{featured.readTime}</span>
+                  <span className="micro">
+                    {new Date(featured.publishedAt).toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "long",
+                    })}
+                  </span>
+                </div>
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+
+        <section style={{ paddingBlockEnd: 96 }}>
+          <div className="container">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3" style={{ gap: 24 }}>
+              {rest.map((post, i) => (
+                <Reveal key={post.slug} delay={i * 0.06}>
+                  <BlogCard post={post} index={i} />
+                </Reveal>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Featured post — spans full width within container */}
-      <section style={{ background: "var(--ink)", paddingBottom: 56 }}>
-        <div className="max-w-[1280px] mx-auto px-6 md:px-14">
-          <BlogCard post={featured} featured />
-        </div>
-      </section>
-
-      {/* Remaining posts */}
-      <section style={{ background: "var(--paper)", padding: "64px 0 88px" }}>
-        <div className="max-w-[1280px] mx-auto px-6 md:px-14">
-          <div className="flex items-center gap-4 mb-10">
-            <hr style={{ flex: 1, border: "none", borderTop: "1px solid var(--rule)" }} />
-            <p className="micro" style={{ color: "var(--muted-color)" }}>More articles</p>
-            <hr style={{ flex: 1, border: "none", borderTop: "1px solid var(--rule)" }} />
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {rest.map((post) => (
-              <BlogCard key={post.slug} post={post} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <CTABanner />
+        <CTABanner />
+      </main>
       <Footer />
-    </div>
+    </>
   );
 }
