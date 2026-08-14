@@ -51,5 +51,8 @@ _Avoid_: black, foreground
 **Accent**:
 Teal `#15a89a` or green `#3edd5c`. An Accent is only ever a fill behind Ink text or a decorative shape — never text itself, and never a background for white text.
 
+**Product palette**:
+The colours belonging to one of our Apps rather than to myPeedika — Replyr's indigo, Shopalizer's purple. A Product palette appears only inside that App's own card, never anywhere else on the site.
+
 **Inverted card**:
 A card filled with Ink instead of Paper, used sparingly to break up a grid. Exactly one per services grid, and one in the closing call to action. Nowhere else.

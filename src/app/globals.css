@@ -578,119 +578,315 @@ svg {
   transform: rotate(45deg);
 }
 
-/* Apps — the reference's split testimonial layout */
-.apps-split {
-  display: grid;
-  gap: 40px;
+/* ── App cards ────────────────────────────────────────────────────
+   Each card wears its own product's brand, not myPeedika's. Palettes
+   sampled from dmreplyr.app and wappalyzer.com. This is the one place
+   accents other than teal/green appear — see DESIGN.md, "App cards".
+   ─────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Replyr */
+  --replyr-bg: #f6f3f1;
+  --replyr-indigo: #5f63f0; /* darkened from #6a6ef6 so white passes 4.64:1 */
+  --replyr-cta: #2b59d1;
+  --replyr-tan: #ddd0a2;
+
+  /* Shopalizer, after Wappalyzer */
+  --wapp-black: #121212;
+  --wapp-purple: #4608ad;
+  --wapp-violet: #a78bfa; /* 6.88:1 on black; raw purple is 1.69:1 */
+  --wapp-lavender: #d3c4ec;
 }
 
-.app-col {
+.apps-grid {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .apps-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.app-card {
   display: flex;
   flex-direction: column;
+  block-size: 100%;
+  border-radius: var(--radius-card);
+  padding: clamp(24px, 3vw, 36px);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-block-end: 26px;
+}
+
+/* Product wordmarks — each set the way that product sets its own. */
+.applogo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   min-inline-size: 0;
 }
 
-.app-tagline {
-  font-size: clamp(23px, 2.5vw, 32px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.1;
-  margin-block: 20px 16px;
-  max-inline-size: 18ch;
-}
-
-.app-features {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 28px;
-  display: grid;
-  gap: 9px;
-}
-
-.app-features li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 15px;
-  color: var(--muted);
-}
-
-.app-features svg {
-  flex-shrink: 0;
-  margin-block-start: 4px;
-}
-
-.app-by {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-block: 20px;
-  border-block-start: 1.5px solid var(--hairline-soft);
-  margin-block-end: 24px;
-}
-
-.app-avatar {
-  inline-size: 42px;
-  block-size: 42px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.applogo__word {
   font-size: 19px;
-  font-weight: 700;
-  /* Accent fill, Ink text. ADR 0002. */
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Replyr sets its name in a lowercase serif */
+.applogo__word--replyr {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.005em;
   color: var(--ink);
-  flex-shrink: 0;
 }
 
-.app-name {
+/* Wappalyzer sets its name in a heavy geometric sans */
+.applogo__word--shopalizer {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+/* System mono — echoes both products' micro labels without loading a
+   second webfont. The single-webfont rule in ADR 0001 is unchanged. */
+.app-card__eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   display: block;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  margin-block-end: 12px;
 }
 
-.app-platform {
-  display: block;
-  font-size: 13.5px;
-  color: var(--muted);
-}
-
-.app-status {
-  margin-inline-start: auto;
+.app-card__badge {
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   padding: 5px 11px;
   border-radius: 999px;
-  color: var(--ink);
   white-space: nowrap;
 }
 
-.app-action {
+.app-card__badge--live {
+  background: var(--green);
+  color: var(--ink);
+}
+
+.app-card__badge--soon {
+  background: var(--wapp-violet);
+  color: var(--wapp-black);
+}
+
+.app-card__title {
+  font-size: clamp(24px, 2.6vw, 33px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  max-inline-size: 17ch;
+  margin-block-end: 26px;
+}
+
+.app-card__body {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-block-end: 28px;
+}
+
+.app-card__foot {
   margin-block-start: auto;
 }
 
-@media (min-width: 900px) {
-  .apps-split {
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-  }
+/* ── Replyr ─────────────────────────────────────────────────── */
 
-  .app-col {
-    padding-inline: 48px;
-  }
+.app-card--replyr {
+  background: var(--replyr-bg);
+  border: var(--border-card) solid var(--hairline);
+  color: var(--ink);
+}
 
-  .app-col:first-child {
-    padding-inline-start: 0;
-  }
+.app-card--replyr .app-card__eyebrow {
+  color: rgba(33, 33, 33, 0.55);
+}
 
-  /* The reference's vertical rule between the two columns */
-  .app-col + .app-col {
-    border-inline-start: 1.5px solid var(--hairline);
-    padding-inline-end: 0;
-  }
+.app-card--replyr .app-card__body {
+  color: rgba(33, 33, 33, 0.66);
+}
+
+.app-card__cta {
+  background: var(--replyr-cta);
+  color: #fff;
+}
+
+.chat {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(33, 33, 33, 0.08);
+  margin-block-end: 26px;
+}
+
+.chat__label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(33, 33, 33, 0.42);
+}
+
+.chat__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.chat__row--out {
+  justify-content: flex-end;
+}
+
+.chat__avatar {
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: 999px;
+  background: var(--replyr-tan);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.chat__bubble {
+  font-size: 13px;
+  line-height: 1.45;
+  padding: 9px 13px;
+  border-radius: 14px;
+  max-inline-size: 78%;
+}
+
+.chat__bubble--in {
+  background: #fff;
+  border: 1px solid rgba(33, 33, 33, 0.1);
+  color: var(--ink);
+  border-end-start-radius: 4px;
+}
+
+.chat__bubble--out {
+  background: var(--replyr-indigo);
+  color: #fff;
+  border-end-end-radius: 4px;
+}
+
+/* ── Shopalizer ─────────────────────────────────────────────── */
+
+.app-card--shopalizer {
+  background: var(--wapp-black);
+  border: var(--border-card) solid var(--wapp-black);
+  color: #fff;
+}
+
+/* The purple hero wash and constellation dots Wappalyzer opens with */
+.app-card--shopalizer::before {
+  content: "";
+  position: absolute;
+  inset-block-start: -120px;
+  inset-inline-end: -80px;
+  inline-size: 320px;
+  block-size: 320px;
+  border-radius: 999px;
+  background: radial-gradient(circle, var(--wapp-purple) 0%, transparent 70%);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.app-card--shopalizer > * {
+  position: relative;
+}
+
+.app-card--shopalizer .app-card__eyebrow {
+  color: var(--wapp-lavender);
+}
+
+.app-card--shopalizer .app-card__body {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.scan {
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-block-end: 26px;
+}
+
+.scan__bar {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--wapp-lavender);
+  font-size: 13px;
+  margin-block-end: 14px;
+}
+
+.scan__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.scan__chip {
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.scan__chip--theme {
+  background: var(--wapp-purple);
+  border-color: var(--wapp-purple);
+  color: #fff;
+}
+
+/* The early-access form sits on the dark card, so it inverts. */
+.app-card--shopalizer .ea-input {
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+
+.app-card--shopalizer .ea-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.app-card--shopalizer .ea-input:focus {
+  border-color: var(--wapp-violet);
+}
+
+.app-card--shopalizer .btn--ink {
+  background: #fff;
+  color: var(--wapp-black);
+}
+
+.app-card--shopalizer .ea-note {
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Early access form */

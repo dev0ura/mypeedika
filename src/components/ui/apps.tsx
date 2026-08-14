@@ -1,100 +1,95 @@
 import Reveal from "@/components/reveal";
 import SectionHeading from "./section-heading";
-import { apps, type App } from "@/data/apps";
 import EarlyAccessForm from "./early-access-form";
+import { ReplyrLogo, ShopalizerLogo } from "./app-logos";
+import { apps } from "@/data/apps";
 
-/* Laid out on the reference's testimonial pattern: two columns split by a
-   rule, a large accent mark where the quote glyph sits, the tagline in the
-   quote's weight, and an icon/name/platform row where the avatar sits. */
+/* Each App card is dressed in that product's own design language rather
+   than myPeedika's, so the section reads as a shelf of real products.
+   Palettes sampled from dmreplyr.app and wappalyzer.com — see DESIGN.md,
+   "App cards", for why this is a deliberate exception to ADR 0002. */
 
-function AppMark({ id, accent }: { id: string; accent: string }) {
-  const common = {
-    width: 44,
-    height: 44,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: accent,
-    strokeWidth: 2.4,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    "aria-hidden": true,
-  };
+function ReplyrCard() {
+  const app = apps.find((a) => a.id === "replyr")!;
 
-  if (id === "replyr") {
-    return (
-      <svg {...common}>
-        <path d="M21 11.5a8.4 8.4 0 01-9 8.4 9 9 0 01-4.2-1L3 20l1.2-4.5A8.4 8.4 0 013 11.5 8.4 8.4 0 0112 3a8.4 8.4 0 019 8.5z" />
-      </svg>
-    );
-  }
   return (
-    <svg {...common}>
-      <circle cx="11" cy="11" r="7" />
-      <line x1="20" y1="20" x2="16" y2="16" />
-    </svg>
+    <article className="app-card app-card--replyr">
+      <div className="app-card__head">
+        <ReplyrLogo />
+        <span className="app-card__badge app-card__badge--live">Live</span>
+      </div>
+
+      <span className="app-card__eyebrow">{app.platform}</span>
+      <h3 className="app-card__title">{app.tagline}</h3>
+
+      {/* Replyr's signature: a shopper writing in mixed script, answered
+          in the same language with live store data. */}
+      <div className="chat" aria-hidden="true">
+        <span className="chat__label">Manglish</span>
+        <div className="chat__row">
+          <span className="chat__avatar">A</span>
+          <span className="chat__bubble chat__bubble--in">
+            Ee blue shirt M size undo?
+          </span>
+        </div>
+        <div className="chat__row chat__row--out">
+          <span className="chat__bubble chat__bubble--out">
+            Undu 😊 ₹2,490. Link ayakkatte?
+          </span>
+        </div>
+      </div>
+
+      <p className="app-card__body">{app.description}</p>
+
+      <div className="app-card__foot">
+        <a href={app.url} target="_blank" rel="noreferrer" className="btn app-card__cta">
+          Visit Replyr
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </a>
+      </div>
+    </article>
   );
 }
 
-function AppColumn({ app }: { app: App }) {
-  const accent = app.status === "live" ? "var(--green)" : "var(--teal)";
+function ShopalizerCard() {
+  const app = apps.find((a) => a.id === "shopalizer")!;
+  const detected = ["Dawn 12.0", "Klaviyo", "Judge.me", "Recharge", "Gorgias"];
 
   return (
-    <article className="app-col">
-      <AppMark id={app.id} accent={accent} />
-
-      <h3 className="app-tagline">{app.tagline}</h3>
-
-      <p className="t-body" style={{ marginBlockEnd: 22 }}>
-        {app.description}
-      </p>
-
-      <ul className="app-features">
-        {app.features.map((feature) => (
-          <li key={feature}>
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke={accent}
-              strokeWidth="3.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
-            {feature}
-          </li>
-        ))}
-      </ul>
-
-      {/* Where the reference puts the avatar, name and role */}
-      <div className="app-by">
-        <span className="app-avatar" style={{ background: accent }} aria-hidden="true">
-          {app.name.charAt(0)}
-        </span>
-        <span>
-          <span className="app-name">{app.name}</span>
-          <span className="app-platform">{app.platform}</span>
-        </span>
-        <span className="app-status" style={{ background: accent }}>
-          {app.status === "live" ? "Live" : "Early access"}
-        </span>
+    <article className="app-card app-card--shopalizer">
+      <div className="app-card__head">
+        <ShopalizerLogo />
+        <span className="app-card__badge app-card__badge--soon">Coming soon</span>
       </div>
 
-      <div className="app-action">
-        {app.status === "live" && app.url ? (
-          <a href={app.url} target="_blank" rel="noreferrer" className="btn btn--ink">
-            Visit {app.name}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <line x1="7" y1="17" x2="17" y2="7" />
-              <polyline points="7 7 17 7 17 17" />
-            </svg>
-          </a>
-        ) : (
-          <EarlyAccessForm appName={app.name} />
-        )}
+      <span className="app-card__eyebrow">{app.platform}</span>
+      <h3 className="app-card__title">{app.tagline}</h3>
+
+      {/* The detector: point it at a store, get its stack back. */}
+      <div className="scan" aria-hidden="true">
+        <div className="scan__bar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="20" y1="20" x2="16" y2="16" />
+          </svg>
+          <span>anystore.com</span>
+        </div>
+        <div className="scan__chips">
+          {detected.map((item, i) => (
+            <span key={item} className={`scan__chip${i === 0 ? " scan__chip--theme" : ""}`}>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <p className="app-card__body">{app.description}</p>
+
+      <div className="app-card__foot">
+        <EarlyAccessForm appName={app.name} />
       </div>
     </article>
   );
@@ -119,13 +114,14 @@ export default function Apps({ heading = true }: { heading?: boolean }) {
           </Reveal>
         )}
 
-        <Reveal>
-          <div className="apps-split">
-            {apps.map((app) => (
-              <AppColumn key={app.id} app={app} />
-            ))}
-          </div>
-        </Reveal>
+        <div className="apps-grid">
+          <Reveal>
+            <ReplyrCard />
+          </Reveal>
+          <Reveal delay={0.08}>
+            <ShopalizerCard />
+          </Reveal>
+        </div>
       </div>
     </section>
   );

@@ -66,6 +66,27 @@ section rhythm  72px block padding, 120px at ≥768px
 
 Exactly one card per grid is Inverted — in Services it is "Apps & custom apps" — plus the closing call to action. Nowhere else.
 
+## App cards
+
+**The one deliberate exception to everything above.** Each App card is dressed in *that product's* brand, not myPeedika's, so the section reads as a shelf of real products rather than two more service cards. Palettes were sampled from the live sites.
+
+| | Replyr | Shopalizer |
+|---|---|---|
+| Ground | `#f6f3f1` warm paper | `#121212` near-black |
+| Accent | `#5f63f0` indigo | `#4608ad` purple |
+| Support | `#2b59d1` CTA, `#ddd0a2` avatar | `#a78bfa` violet, `#d3c4ec` lavender |
+| Wordmark | lowercase serif | heavy sans |
+| Motif | Instagram DM exchange | URL bar + detected-stack chips |
+
+Shopalizer has no site yet, so its identity is derived from [Wappalyzer](https://www.wappalyzer.com/) — the stacked isometric rhombus and the purple-on-black scheme — which is the point of the product.
+
+Two contrast corrections were forced here, and both must hold:
+
+- Replyr's real indigo is `#6a6ef6`, which puts white bubble text at **4.06:1**. The card uses `#5f63f0` — visually the same, **4.64:1**.
+- Wappalyzer's purple on black is **1.69:1**, so it is only ever a large fill behind white text (11.06:1). Small text and chips use `#a78bfa` (**6.88:1**) or lavender.
+
+The system monospace stack (`ui-monospace`) is used for micro labels on these cards, echoing both products. It loads no webfont, so the single-family rule in ADR 0001 is unaffected.
+
 ## Motion
 
 Restrained. Scroll reveal fades and lifts 18px; Works screenshots pan on hover; the hero illustration drifts. Everything honours `prefers-reduced-motion`.
