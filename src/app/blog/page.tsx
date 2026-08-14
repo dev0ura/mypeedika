@@ -12,7 +12,7 @@ import { SITE } from "@/data/site";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Plain-English guides on selling online — Shopify setup, costs, migrations, and comparisons.",
+    "Plain English guides on selling online. Shopify setup, costs, migrations and comparisons.",
   alternates: { canonical: `${SITE.url}/blog` },
 };
 

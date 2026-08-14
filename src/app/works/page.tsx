@@ -24,7 +24,7 @@ export default function WorksPage() {
             </h1>
             <p className="t-lead" style={{ maxInlineSize: "46ch" }}>
               Every one of these is live right now. Open them, browse them, check
-              them on your phone — that is the only review that counts.
+              them on your phone. That is the only review that counts.
             </p>
           </div>
         </section>

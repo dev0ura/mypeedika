@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "myPeedika — we build Shopify stores",
+    name: "myPeedika, we build Shopify stores",
     short_name: "myPeedika",
     description:
       "Shopify store design, speed, apps, and migrations for businesses in India and the Gulf.",
