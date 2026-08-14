@@ -1,7 +1,6 @@
 export const SITE = {
   name: "myPeedika",
   url: "https://www.mypeedika.com",
-  tagline: "We build Shopify stores",
 } as const;
 
 /* Confirmed live by the owner. WhatsApp is primary — it is how buyers in

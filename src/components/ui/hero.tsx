@@ -6,7 +6,6 @@ export default function Hero() {
     <section style={{ paddingBlock: "clamp(40px, 6vw, 88px)" }}>
       <div className="container">
         <div className="hero-grid">
-          {/* Message */}
           <div className="hero-copy">
             <h1 className="t-hero" style={{ marginBlockEnd: 26 }}>
               We build Shopify stores
@@ -40,7 +39,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Illustration */}
           <div className="hero-art">
             <HeroIllustration />
           </div>

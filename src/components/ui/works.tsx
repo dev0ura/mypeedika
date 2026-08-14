@@ -35,7 +35,6 @@ export default function Works({ heading = true }: { heading?: boolean }) {
                 className="work-card card"
                 style={{ padding: 16, blockSize: "100%" }}
               >
-                {/* Browser frame */}
                 <div className="work-frame">
                   <div className="work-chrome">
                     <span className="work-dot" />

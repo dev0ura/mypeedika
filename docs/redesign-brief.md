@@ -21,7 +21,7 @@ Single page, in order:
    - Apps & custom apps
    - Reviews setup & migrations
 3. **Works** — bordered Paper cards holding full-page store screenshots that pan on hover; click opens the live store in a new tab. [lavandastyle.com](https://lavandastyle.com/) and [zeharbabystore.com](https://zeharbabystore.com/).
-4. **Apps** — the reference's two-column split testimonial layout, divided by a vertical rule (superseding the Inverted cards this brief originally specified, at the owner's request). **Replyr** (live, links to dmreplyr.app) and **Shopalizer** (Early access).
+4. **Apps** — one card per App, each dressed in that product's own brand rather than myPeedika's, so the section reads as a shelf of real products. **Replyr** (live, links to dmreplyr.app) and **Shopalizer** (Early access). Superseded the Inverted cards this brief originally specified, then a split testimonial layout, both at the owner's request. See DESIGN.md, "App cards".
 5. **Blog preview** — two most recent posts, linking through to `/blog`. The reference carries a Blog section and the owner asked to keep it.
 6. **FAQ** — reference's accordion, green soft-fill on the open state. Content rewritten.
 7. **CTA** + **Footer**.
