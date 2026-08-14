@@ -1,43 +1,65 @@
+import Reveal from "@/components/reveal";
+import { CONTACT } from "@/data/site";
+
 export default function CTABanner() {
   return (
-    <section style={{ background: "var(--ink)", padding: "88px 0", borderBottom: "1px solid var(--ink-border)" }}>
-      <div className="max-w-[1280px] mx-auto px-6 md:px-14">
-        <div className="grid md:grid-cols-[1fr_auto] gap-10 md:gap-20 items-center">
-          <div>
-            <p className="micro mb-4" style={{ color: "var(--teal)" }}>Ready to start?</p>
-            <h2
-              className="display"
-              style={{ fontSize: "clamp(48px,7vw,96px)", color: "var(--paper)", lineHeight: 0.88, marginBottom: 20 }}
-            >
-              Let&apos;s build your{" "}
-              <span style={{ color: "var(--teal)" }}>Shopify store.</span>
-            </h2>
-            <p style={{ fontSize: 17, color: "var(--ink-subtle)", lineHeight: 1.6, maxWidth: 480 }}>
-              Book a free 20-minute call. We&apos;ll understand your business and give you a clear quote — no pressure, no jargon.
-            </p>
+    <section className="section" style={{ paddingBlockStart: 0 }}>
+      <div className="container">
+        <Reveal>
+          <div
+            className="card card--inverted"
+            style={{
+              padding: "clamp(40px, 6vw, 88px)",
+              alignItems: "center",
+              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            {/* Accent shapes. Hidden below 900px, where the card is narrow
+                enough for the centred heading to overlap them — Paper text
+                on teal is 2.96:1 and on green 1.79:1. ADR 0002. */}
+            <span className="cta-blob cta-blob--teal" aria-hidden="true" />
+            <span className="cta-blob cta-blob--green" aria-hidden="true" />
+
+            <div style={{ position: "relative" }}>
+              <h2 className="t-section" style={{ marginBlockEnd: 20 }}>
+                Let&apos;s build
+                <br />
+                your store
+              </h2>
+              <p
+                className="t-body"
+                style={{ maxInlineSize: "40ch", marginInline: "auto", marginBlockEnd: 32 }}
+              >
+                Tell us what you sell and where you are stuck. We will tell you
+                honestly what it takes, before you pay anything.
+              </p>
+              <div
+                className="flex flex-wrap items-center justify-center"
+                style={{ gap: 12 }}
+              >
+                <a
+                  href={CONTACT.whatsapp}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn"
+                  style={{ background: "var(--paper)", color: "var(--ink)" }}
+                >
+                  Contact us on WhatsApp
+                </a>
+                <a
+                  href={CONTACT.booking}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn--on-ink"
+                >
+                  Book a call
+                </a>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-row md:flex-col gap-3 items-start md:items-end">
-            <a
-              href="https://cal.com/rabeeh0ta/mypeedika-demo"
-              target="_blank"
-              rel="noreferrer"
-              className="btn-primary"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              Book a free call →
-            </a>
-            <a
-              href="https://wa.me/919048814964"
-              target="_blank"
-              rel="noreferrer"
-              className="btn-ghost-dark"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              WhatsApp us
-            </a>
-            <p className="micro" style={{ color: "var(--ink-muted)" }}>Same-day reply</p>
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

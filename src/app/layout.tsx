@@ -1,16 +1,10 @@
 import type { Metadata } from "next";
-import { Anton, Space_Grotesk } from "next/font/google";
+import { Figtree } from "next/font/google";
 import "./globals.css";
 
-const anton = Anton({
-  weight: "400",
-  variable: "--font-anton",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space",
+/* Single family, two weights. See docs/adr/0001. */
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
@@ -18,63 +12,58 @@ const spaceGrotesk = Space_Grotesk({
 
 const BASE_URL = "https://www.mypeedika.com";
 
+const DESCRIPTION =
+  "We build Shopify stores for small businesses across India and the Gulf. New stores, redesigns, speed fixes and migrations.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
 
   title: {
-    default: "myPeedika | Shopify Store Setup & Design for Indian Businesses",
+    default: "myPeedika | We build Shopify stores",
     template: "%s | myPeedika",
   },
-  description:
-    "We build, design, and fix Shopify stores for Indian businesses. 100+ stores launched. Go live in 7 days. Book a free call today.",
+  description: DESCRIPTION,
   keywords: [
-    "shopify store setup india",
+    "shopify store setup",
     "shopify developer india",
-    "shopify store design india",
-    "online store setup india",
-    "shopify implementation service india",
-    "ecommerce website india",
-    "shopify store kerala",
-    "razorpay shopify setup",
-    "shopify store cost india",
+    "shopify store design",
+    "shopify speed optimisation",
+    "shopify migration",
+    "shopify apps",
+    "shopify store dubai",
+    "shopify agency india",
   ],
   authors: [{ name: "myPeedika", url: BASE_URL }],
   creator: "myPeedika",
   publisher: "myPeedika",
 
-  // Canonical
   alternates: { canonical: BASE_URL },
 
-  // Open Graph
   openGraph: {
     type: "website",
-    locale: "en_IN",
+    locale: "en",
     url: BASE_URL,
     siteName: "myPeedika",
-    title: "myPeedika | Shopify Store Setup for Indian Businesses",
-    description:
-      "We build beautiful Shopify stores for Indian businesses. 100+ stores. 7-day delivery. Book a free call.",
+    title: "myPeedika | We build Shopify stores",
+    description: DESCRIPTION,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "myPeedika — Shopify Store Setup for Indian Businesses",
+        alt: "myPeedika, we build Shopify stores",
       },
     ],
   },
 
-  // Twitter / X card
   twitter: {
     card: "summary_large_image",
-    title: "myPeedika | Shopify Store Setup for Indian Businesses",
-    description:
-      "We build beautiful Shopify stores for Indian businesses. 7-day delivery. Book a free call.",
+    title: "myPeedika | We build Shopify stores",
+    description: DESCRIPTION,
     images: ["/og-image.png"],
     creator: "@mypeedika",
   },
 
-  // Icons
   icons: {
     icon: [
       { url: "/icon.png", type: "image/png" },
@@ -85,9 +74,6 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/icon.png",
   },
-
-  // Verification (add your codes here when you have them)
-  // verification: { google: "YOUR_CODE", },
 
   robots: {
     index: true,
@@ -101,9 +87,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={`${anton.variable} ${spaceGrotesk.variable} antialiased`}>
-        {children}
-      </body>
+      <body className={figtree.variable}>{children}</body>
     </html>
   );
 }
