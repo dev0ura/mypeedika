@@ -285,6 +285,26 @@ svg {
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Globe rotation — two map tiles scroll one full tile width and loop */
+@keyframes globe-spin {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-336px);
+  }
+}
+
+.gd-spin {
+  animation: globe-spin 26s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gd-spin {
+    animation: none;
+  }
+}
+
 /* Hero illustration drift */
 @keyframes drift {
   0%,

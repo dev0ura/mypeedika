@@ -1,4 +1,4 @@
-import HeroIllustration from "./hero-illustration";
+import HeroGlobe from "./hero-globe";
 import { CONTACT } from "@/data/site";
 
 export default function Hero() {
@@ -40,7 +40,7 @@ export default function Hero() {
           </div>
 
           <div className="hero-art">
-            <HeroIllustration />
+            <HeroGlobe />
           </div>
         </div>
       </div>
