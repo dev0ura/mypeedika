@@ -285,58 +285,9 @@ svg {
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Globe rotation — two map tiles scroll one full tile width and loop */
-@keyframes globe-spin {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-336px);
-  }
-}
-
-.gd-spin {
-  animation: globe-spin 26s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gd-spin {
-    animation: none;
-  }
-}
-
-/* Hero illustration drift */
-@keyframes drift {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(var(--drift, -9px));
-  }
-}
-
-.drift-a,
-.drift-b,
-.drift-c {
-  animation: drift var(--dur, 5.5s) ease-in-out infinite;
-  will-change: transform;
-}
-
-.drift-a {
-  --drift: -10px;
-  --dur: 5.5s;
-}
-
-.drift-b {
-  --drift: -8px;
-  --dur: 4.4s;
-}
-
-.drift-c {
-  --drift: -7px;
-  --dur: 6.2s;
-}
+/* The hero globe animates from script, not CSS - it re-projects real
+   geometry each frame, which no keyframe can express. It reads
+   prefers-reduced-motion itself and simply never starts. */
 
 @media (prefers-reduced-motion: reduce) {
   html {

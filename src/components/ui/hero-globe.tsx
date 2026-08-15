@@ -1,9 +1,15 @@
-import { LAND_PATH, GRATICULE_PATH } from "./globe-data";
+"use client";
 
-/* Hero globe, after the Wise treatment: an oversized luminous sphere with
-   soft cloud wisps and tokens floating around it. The coastlines are real
-   Natural Earth geometry projected orthographically at 16N/62E, so India
-   and the Gulf face the viewer rather than the Atlantic.
+import { useEffect, useRef } from "react";
+import { LAND, MERIDIANS, PARALLELS } from "./globe-data";
+import { fillPath, strokePath } from "./globe-projection";
+
+/* Hero globe: a turning sphere with the brand marks in orbit around it.
+
+   The coastlines are real Natural Earth geometry, re-projected every frame
+   rather than baked in, which is what lets the thing actually rotate. One
+   frame is rendered on the server too, so the globe is complete and correct
+   before any JavaScript arrives - the loop only takes over the turning.
 
    Shopify, Instagram and Razorpay use the vendors' real vector geometry.
    Judge.me publishes no vector, so reviews are represented by a star. */
@@ -20,49 +26,156 @@ const RAZORPAY_DARK = "M14.26 10.098L3.389 17.166 1.564 24h9.008l3.688-13.902Z";
 
 const INK = "#212121";
 const PAPER = "#fcf8f5";
-const CX = 268;
-const CY = 288;
-const R = 200;
 
-function Token({
-  x,
-  y,
-  r,
-  tilt = 1,
-  spin = 0,
-  drift,
-  children,
-}: {
-  x: number;
-  y: number;
-  r: number;
-  tilt?: number;
-  spin?: number;
-  drift: string;
-  children: React.ReactNode;
-}) {
+const CX = 300;
+const CY = 300;
+const R = 196;
+
+/* The orbit is a circle seen almost edge-on, then tipped a little so it
+   does not sit dead level with the horizon. */
+const ORBIT_A = 246;
+const ORBIT_B = 76;
+const ORBIT_TILT = (-10 * Math.PI) / 180;
+const COS_ORB = Math.cos(ORBIT_TILT);
+const SIN_ORB = Math.sin(ORBIT_TILT);
+
+/** Longitude at the centre on first paint. 62E, so the Gulf faces us. */
+const SPIN_START = 62;
+const SPIN_PERIOD = 64_000;
+const ORBIT_PERIOD = 28_000;
+
+type Placement = { x: number; y: number; scale: number; behind: boolean };
+
+function place(angleDeg: number): Placement {
+  const t = (angleDeg * Math.PI) / 180;
+  const ex = ORBIT_A * Math.cos(t);
+  const ey = ORBIT_B * Math.sin(t);
+  const z = Math.sin(t);
+  return {
+    x: CX + ex * COS_ORB - ey * SIN_ORB,
+    y: CY + ex * SIN_ORB + ey * COS_ORB,
+    scale: 1 + 0.16 * z,
+    behind: z < 0,
+  };
+}
+
+const transformFor = (p: Placement) =>
+  `translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) scale(${p.scale.toFixed(3)})`;
+
+/* Parallels are unmoved by a spin about the polar axis, so they are
+   projected once and left alone. */
+const PARALLEL_PATH = strokePath(PARALLELS, 0, R);
+
+const MARKS = [
+  { angle: 0, r: 38, spin: -8 },
+  { angle: 96, r: 31, spin: 6 },
+  { angle: 190, r: 33, spin: 7 },
+  { angle: 282, r: 27, spin: -10 },
+] as const;
+
+function Mark({ r, spin, children }: { r: number; spin: number; children: React.ReactNode }) {
   return (
-    <g className={drift}>
-      <g transform={`translate(${x} ${y}) rotate(${spin}) scale(${tilt} 1)`}>
-        <ellipse cx="0" cy={r * 0.24} rx={r * 0.92} ry={r * 0.2} fill={INK} opacity="0.13" />
-        <circle cx="0" cy="0" r={r} fill={PAPER} />
-        <circle cx="0" cy="0" r={r} fill="url(#tok-sheen)" />
-        <circle cx="0" cy="0" r={r} fill="none" stroke={INK} strokeOpacity="0.13" strokeWidth="1.5" />
-        {/* brand paths are 24x24; scale so the mark fills ~57% of the token */}
-        <g transform={`scale(${r / 21}) translate(-12 -12)`}>{children}</g>
-      </g>
+    <g transform={`rotate(${spin})`}>
+      <ellipse cx="0" cy={r * 0.24} rx={r * 0.92} ry={r * 0.2} fill={INK} opacity="0.13" />
+      <circle cx="0" cy="0" r={r} fill={PAPER} />
+      <circle cx="0" cy="0" r={r} fill="url(#tok-sheen)" />
+      <circle cx="0" cy="0" r={r} fill="none" stroke={INK} strokeOpacity="0.13" strokeWidth="1.5" />
+      {/* brand paths are 24x24; scale so the mark fills ~57% of the token */}
+      <g transform={`scale(${r / 21}) translate(-12 -12)`}>{children}</g>
     </g>
   );
 }
 
 export default function HeroGlobe() {
+  const landRef = useRef<SVGPathElement>(null);
+  const reliefRef = useRef<SVGPathElement>(null);
+  const meridianRef = useRef<SVGPathElement>(null);
+  /* A mark needs two nodes: an outer one to carry the clip, and an inner one
+     to carry the transform. Put both on one node and the element's transform
+     drags the clip along with it, which masks the wrong part of the screen. */
+  const clipRefs = useRef<(SVGGElement | null)[]>([]);
+  const moveRefs = useRef<(SVGGElement | null)[]>([]);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let frame = 0;
+    let start = performance.now();
+    let elapsed = 0;
+    let onScreen = true;
+    const clipped = MARKS.map((m) => place(m.angle).behind);
+
+    const draw = (now: number) => {
+      const ms = elapsed + (now - start);
+      const spin = SPIN_START + (ms / SPIN_PERIOD) * 360;
+      const orbit = (ms / ORBIT_PERIOD) * 360;
+
+      const land = fillPath(LAND, spin, R);
+      landRef.current?.setAttribute("d", land);
+      reliefRef.current?.setAttribute("d", land);
+      meridianRef.current?.setAttribute("d", strokePath(MERIDIANS, spin, R));
+
+      for (let i = 0; i < MARKS.length; i++) {
+        const move = moveRefs.current[i];
+        if (!move) continue;
+        const p = place(MARKS[i].angle + orbit);
+        move.setAttribute("transform", transformFor(p));
+        // only touched on the two crossings per lap, not every frame
+        if (p.behind !== clipped[i]) {
+          clipRefs.current[i]?.setAttribute("clip-path", p.behind ? "url(#g-behind)" : "none");
+          clipped[i] = p.behind;
+        }
+      }
+
+      frame = requestAnimationFrame(draw);
+    };
+
+    /* Stop the loop whenever nobody can see it - scrolled away, or the tab
+       in the background - and pick the clock back up where it was left. */
+    const resume = () => {
+      if (frame || !onScreen || document.hidden) return;
+      start = performance.now();
+      frame = requestAnimationFrame(draw);
+    };
+
+    const pause = () => {
+      if (!frame) return;
+      elapsed += performance.now() - start;
+      cancelAnimationFrame(frame);
+      frame = 0;
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        if (onScreen) resume();
+        else pause();
+      },
+      { rootMargin: "120px" },
+    );
+    if (landRef.current?.ownerSVGElement) io.observe(landRef.current.ownerSVGElement);
+
+    const onVisibility = () => (document.hidden ? pause() : resume());
+    document.addEventListener("visibilitychange", onVisibility);
+    resume();
+
+    return () => {
+      pause();
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  const initialLand = fillPath(LAND, SPIN_START, R);
+  const initialMeridians = strokePath(MERIDIANS, SPIN_START, R);
+
   return (
     <svg
-      viewBox="0 0 600 580"
+      viewBox="0 0 600 600"
       width="600"
-      height="580"
+      height="600"
       role="img"
-      aria-label="A globe centred on India and the Gulf, with Shopify, Instagram, Razorpay and Judge.me marks floating around it"
+      aria-label="A slowly turning globe centred on India and the Gulf, orbited by the Shopify, Instagram, Razorpay and Judge.me marks"
       style={{ inlineSize: "100%", blockSize: "auto", maxInlineSize: "100%" }}
     >
       <defs>
@@ -115,6 +228,15 @@ export default function HeroGlobe() {
           <circle cx={CX} cy={CY} r={R} />
         </clipPath>
 
+        {/* everything except the sphere, so a mark on the far side of the
+            orbit slides behind the limb instead of over it */}
+        <clipPath id="g-behind" clipRule="evenodd">
+          <path
+            d={`M0,0 H600 V600 H0 Z M${CX},${CY - R} A${R},${R} 0 1,0 ${CX},${CY + R} A${R},${R} 0 1,0 ${CX},${CY - R} Z`}
+            clipRule="evenodd"
+          />
+        </clipPath>
+
         <filter id="g-soft" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="16" />
         </filter>
@@ -126,7 +248,7 @@ export default function HeroGlobe() {
       {/* contact shadow, so the sphere sits in the page rather than on it */}
       <ellipse
         cx={CX + 6}
-        cy={CY + R + 22}
+        cy={CY + R + 26}
         rx={R * 0.72}
         ry="20"
         fill={INK}
@@ -143,12 +265,26 @@ export default function HeroGlobe() {
       <g clipPath="url(#g-clip)">
         <g transform={`translate(${CX} ${CY})`}>
           {/* land shadow, offset slightly for a sense of relief */}
-          <path d={LAND_PATH} fill="#04302c" opacity="0.5" transform="translate(3 4)" />
-          <path d={LAND_PATH} fill="url(#g-land)" />
+          <path
+            ref={reliefRef}
+            d={initialLand}
+            fill="#04302c"
+            opacity="0.5"
+            transform="translate(3 4)"
+          />
+          <path ref={landRef} d={initialLand} fill="url(#g-land)" />
 
           {/* graticule, faint, over the water only */}
           <path
-            d={GRATICULE_PATH}
+            d={PARALLEL_PATH}
+            fill="none"
+            stroke={PAPER}
+            strokeOpacity="0.16"
+            strokeWidth="1"
+          />
+          <path
+            ref={meridianRef}
+            d={initialMeridians}
             fill="none"
             stroke={PAPER}
             strokeOpacity="0.16"
@@ -191,37 +327,51 @@ export default function HeroGlobe() {
         />
       </g>
 
-      {/* ── floating brand marks ───────────────────────────────── */}
-
-      {/* Shopify, nearest so largest */}
-      <Token x={496} y={146} r={52} spin={-8} drift="drift-a">
-        <path d={SHOPIFY} fill="#7AB55C" />
-      </Token>
-
-      {/* Instagram: accurate mark, brand gradient */}
-      <Token x={520} y={344} r={38} spin={6} drift="drift-b">
-        <path d={INSTAGRAM} fill="url(#ig-grad)" />
-      </Token>
-
-      {/* Razorpay, for payment integrations. Two subpaths, two brand tones. */}
-      <Token x={86} y={448} r={41} tilt={0.95} spin={7} drift="drift-c">
-        <path d={RAZORPAY_LIGHT} fill="#3395FF" />
-        <path d={RAZORPAY_DARK} fill="#02042B" />
-      </Token>
-
-      {/* Judge.me has no published vector, so reviews get a star */}
-      <Token x={158} y={86} r={30} spin={-10} drift="drift-b">
-        <circle cx="12" cy="12" r="11.5" fill="#25B36B" />
-        <path
-          d="M12 4.6l2.3 4.6 5.1.8-3.7 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1-3.7-3.6 5.1-.8z"
-          fill="#fff"
-        />
-      </Token>
+      {/* ── brand marks in orbit ───────────────────────────────── */}
+      {MARKS.map((m, i) => {
+        const p = place(m.angle);
+        return (
+          <g
+            key={m.angle}
+            ref={(el) => {
+              clipRefs.current[i] = el;
+            }}
+            clipPath={p.behind ? "url(#g-behind)" : "none"}
+          >
+            <g
+              ref={(el) => {
+                moveRefs.current[i] = el;
+              }}
+              transform={transformFor(p)}
+            >
+              <Mark r={m.r} spin={m.spin}>
+                {i === 0 && <path d={SHOPIFY} fill="#7AB55C" />}
+                {i === 1 && <path d={INSTAGRAM} fill="url(#ig-grad)" />}
+                {i === 2 && (
+                  <>
+                    <path d={RAZORPAY_LIGHT} fill="#3395FF" />
+                    <path d={RAZORPAY_DARK} fill="#02042B" />
+                  </>
+                )}
+                {/* Judge.me has no published vector, so reviews get a star */}
+                {i === 3 && (
+                  <>
+                    <circle cx="12" cy="12" r="11.5" fill="#25B36B" />
+                    <path
+                      d="M12 4.6l2.3 4.6 5.1.8-3.7 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1-3.7-3.6 5.1-.8z"
+                      fill="#fff"
+                    />
+                  </>
+                )}
+              </Mark>
+            </g>
+          </g>
+        );
+      })}
 
       {/* loose punctuation, as the reference scatters */}
-      <circle cx="66" cy="182" r="9" fill={INK} opacity="0.85" />
-      <circle cx="556" cy="242" r="7" fill="none" stroke={INK} strokeWidth="2.5" opacity="0.6" />
-      <circle cx="330" cy="546" r="6" fill={INK} opacity="0.35" />
+      <circle cx="52" cy="126" r="9" fill={INK} opacity="0.85" />
+      <circle cx="566" cy="196" r="7" fill="none" stroke={INK} strokeWidth="2.5" opacity="0.6" />
     </svg>
   );
 }

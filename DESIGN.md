@@ -89,7 +89,7 @@ The system monospace stack (`ui-monospace`) is used for micro labels on these ca
 
 ## Motion
 
-Restrained. Scroll reveal fades and lifts 18px; Works screenshots pan on hover; the hero illustration drifts. Everything honours `prefers-reduced-motion`.
+Restrained. Scroll reveal fades and lifts 18px; Works screenshots pan on hover. The hero globe turns once every 64s with the brand marks orbiting it every 28s — slow enough to read as ambient rather than as a demo. It pauses when scrolled out of view or when the tab is hidden. Everything honours `prefers-reduced-motion`.
 
 **The reveal must degrade safely.** The server renders no state attribute, so with JS blocked the content is simply visible. Never ship `opacity: 0` in the SSR HTML waiting on a script — an earlier build did, and the whole page below the hero was invisible without JS.
 
