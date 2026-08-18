@@ -15,8 +15,8 @@ export default function Hero() {
               className="t-lead"
               style={{ maxInlineSize: "34ch", marginBlockEnd: 36 }}
             >
-              Your customers can buy on their own instead of waiting for you to
-              reply.
+              Designed around your brand, your products, and the way your
+              customers shop.
             </p>
 
             <div className="flex flex-wrap items-center" style={{ gap: 12 }}>
