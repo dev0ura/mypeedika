@@ -1,11 +1,13 @@
-import HeroGlobe from "./hero-globe";
+import Image from "next/image";
 import { CONTACT } from "@/data/site";
+import landingShop from "../../../public/landing-shop.png";
+import styles from "./hero.module.css";
 
 export default function Hero() {
   return (
-    <section style={{ paddingBlock: "clamp(40px, 6vw, 88px)" }}>
+    <section className={`${styles.section} landing-hero`}>
       <div className="container">
-        <div className="hero-grid">
+        <div className={`${styles.grid} hero-grid`}>
           <div className="hero-copy">
             <h1 className="t-hero" style={{ marginBlockEnd: 26 }}>
               We build Shopify stores
@@ -39,8 +41,14 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="hero-art">
-            <HeroGlobe />
+          <div className={`${styles.art} hero-art`}>
+            <Image
+              src={landingShop}
+              alt="A miniature myPeedika storefront with a striped awning and a shopping cart"
+              priority
+              sizes="(max-width: 899px) 100vw, 55vw"
+              className="hero-shop-image"
+            />
           </div>
         </div>
       </div>

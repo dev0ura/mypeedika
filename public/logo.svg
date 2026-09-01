@@ -2,7 +2,7 @@
   <defs>
     <linearGradient id="disc-grad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#15a89a"/>
-      <stop offset="100%" stop-color="#3edd5c"/>
+      <stop offset="100%" stop-color="#2b7150"/>
     </linearGradient>
     <filter id="disc-shadow" x="-40%" y="-40%" width="180%" height="180%">
       <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#15a89a" flood-opacity="0.32"/>

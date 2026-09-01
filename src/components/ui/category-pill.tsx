@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 
-/* Accent fill with Ink text, or Ink fill with Paper text when it sits on
-   top of an accent-coloured thumbnail. Never accent-on-accent. ADR 0002. */
+/* Brand green and Ink both carry Paper text. Never accent-on-accent. */
 export default function CategoryPill({
   children,
   tone = "green",
@@ -21,7 +20,7 @@ export default function CategoryPill({
         padding: "5px 12px",
         borderRadius: 999,
         background: tone === "ink" ? "var(--ink)" : "var(--green)",
-        color: tone === "ink" ? "var(--paper)" : "var(--ink)",
+        color: "var(--paper)",
         ...style,
       }}
     >

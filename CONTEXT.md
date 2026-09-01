@@ -49,7 +49,7 @@ The near-black used for all text, `#212121`. Also the fill of inverted cards.
 _Avoid_: black, foreground
 
 **Accent**:
-Teal `#15a89a` or green `#3edd5c`. An Accent is only ever a fill behind Ink text or a decorative shape — never text itself, and never a background for white text.
+Teal `#15a89a` or brand green `#2b7150`. An Accent is only ever a fill or decorative shape, never text. Teal carries Ink text; the darker brand green carries Paper text.
 
 **Product palette**:
 The colours belonging to one of our Apps rather than to myPeedika — Replyr's indigo, Shopalizer's purple. A Product palette appears only inside that App's own card, never anywhere else on the site.

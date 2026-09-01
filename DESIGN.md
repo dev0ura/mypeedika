@@ -6,21 +6,23 @@ Values here were measured from the design reference in `design-inspirations/`, n
 
 | Token | Value | Role |
 |---|---|---|
-| `--paper` | `#fcf8f5` | Page ground **and** card fill |
+| `--paper` | `#fcf8f5` | Page ground **and** card fill from Works onward |
+| `--sand` | `#ead2b7` | Bottom of the landing hero, sampled from `landing-shop.png` |
+| `--sky` | `#7fa4c0` | Navbar and top of the landing hero, sampled from `landing-shop.png` |
 | `--ink` | `#212121` | All text; fill of Inverted cards |
 | `--teal` | `#15a89a` | Accent 1 — the loud one |
-| `--green` | `#3edd5c` | Accent 2 — the soft one |
+| `--green` | `#2b7150` | Primary brand green |
 | `--logo-grad` | teal → green | **Logo disc only** |
 
 Cards share the page ground. They are Paper, not white — only the hairline separates them. This is the single detail that most distinguishes the design from a generic card layout.
 
 ### The rule that cannot be broken
 
-**Accents are fills. Ink is the text on top.** Never white on an accent, never an accent as text.
+**Accents are fills, never text.** Foreground color follows measured contrast: Ink on teal, Paper on brand green.
 
 ```
-white on teal    2.96:1   FAIL      ink on teal    5.44:1   PASS
-white on green   1.79:1   FAIL      ink on green   8.97:1   PASS
+paper on teal    2.80:1   FAIL      ink on teal    5.44:1   PASS
+ink on green     2.75:1   FAIL      paper on green 5.55:1   PASS
 teal on paper    2.80:1   FAIL      ink on paper  15.25:1   PASS
 ```
 
@@ -89,7 +91,9 @@ The system monospace stack (`ui-monospace`) is used for micro labels on these ca
 
 ## Motion
 
-Restrained. Scroll reveal fades and lifts 18px; Works screenshots pan on hover. The hero globe turns once every 64s with the brand marks orbiting it every 28s — slow enough to read as ambient rather than as a demo. It pauses when scrolled out of view or when the tab is hidden. Everything honours `prefers-reduced-motion`.
+Restrained. Scroll reveal fades and lifts 18px; Works screenshots pan on hover. Everything honours `prefers-reduced-motion`.
+
+The fixed navbar is a floating Paper pill with no border or shadow. It sits over the hero gradient and later Paper sections without transparency, blur, or scroll-driven colour changes. On mobile, its menu opens as a separate Paper panel directly below the pill.
 
 **The reveal must degrade safely.** The server renders no state attribute, so with JS blocked the content is simply visible. Never ship `opacity: 0` in the SSR HTML waiting on a script — an earlier build did, and the whole page below the hero was invisible without JS.
 
@@ -99,7 +103,7 @@ All directional CSS uses logical properties — `margin-inline-start`, `padding-
 
 ## Layout notes
 
-- **Hero** is two-column above 900px — message and CTAs left, illustration right — and stacks below.
+- **Hero** is two-column above 900px — message and CTAs left, the `landing-shop.png` storefront right — and stacks below. Its background follows the image from sky blue into sand, then the original Paper returns when Services begins.
 - **Services** is a sticky left heading beside a 2×2 bento.
 - **Works** cards hold a full-page screenshot in a browser frame that pans on hover. Iframes are impossible; both client stores send `frame-ancestors 'none'`.
 - **Apps** borrows the reference's testimonial layout — two columns split by a vertical rule, not cards. Each slot maps across: the quote glyph becomes the app icon, the quote itself becomes the tagline, and the avatar/name/role row becomes icon/name/platform.

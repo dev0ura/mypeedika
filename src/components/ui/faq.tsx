@@ -41,7 +41,7 @@ export default function FAQ() {
                   style={{
                     border: "1.5px solid var(--hairline)",
                     borderRadius: 20,
-                    /* Green is the soft accent — the reference's peach state. */
+                    /* Brand green marks the open state. */
                     background: isOpen ? "var(--green)" : "var(--paper)",
                     overflow: "hidden",
                     transition: "background 0.3s ease",
@@ -69,7 +69,7 @@ export default function FAQ() {
                         fontWeight: 600,
                         letterSpacing: "-0.02em",
                         lineHeight: 1.3,
-                        color: "var(--ink)",
+                        color: isOpen ? "var(--paper)" : "var(--ink)",
                       }}
                     >
                       {faq.question}
@@ -83,7 +83,7 @@ export default function FAQ() {
                           alignItems: "center",
                           justifyContent: "center",
                           borderRadius: 999,
-                          border: "1.5px solid var(--ink)",
+                          border: `1.5px solid ${isOpen ? "var(--paper)" : "var(--ink)"}`,
                           transition: "transform 0.3s cubic-bezier(0.22,1,0.36,1)",
                           transform: isOpen ? "rotate(135deg)" : "none",
                         }}
@@ -103,7 +103,7 @@ export default function FAQ() {
                         padding: "0 24px 22px",
                         fontSize: 15.5,
                         lineHeight: 1.6,
-                        color: "rgba(33,33,33,0.78)",
+                        color: "var(--paper)",
                         maxInlineSize: "62ch",
                       }}
                     >

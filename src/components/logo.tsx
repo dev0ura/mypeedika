@@ -12,7 +12,7 @@ export default function Logo() {
         <defs>
           <linearGradient id="mp-disc" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor="#15a89a" />
-            <stop offset="100%" stopColor="#3edd5c" />
+            <stop offset="100%" stopColor="#2b7150" />
           </linearGradient>
         </defs>
         <circle cx="22" cy="22" r="22" fill="url(#mp-disc)" />

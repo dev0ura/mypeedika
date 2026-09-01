@@ -14,7 +14,7 @@ Shopify storefronts for SMBs in **India and the Gulf**, on one English page — 
 
 Single page, in order:
 
-1. **Hero** — "we build Shopify stores". Custom SVG illustration inside a large teal disc, matching the reference's composition. Clean, one message.
+1. **Hero** — "we build Shopify stores". The `landing-shop.png` storefront sits directly in a sampled sky-to-sand background. Clean, one message.
 2. **Services** — four cards in the reference's bento grid, one Inverted:
    - Store design & premium theme setup
    - Store speed optimisation
@@ -36,14 +36,14 @@ Measured from the reference screenshots, not estimated.
 Paper        #fcf8f5     page ground AND card fill
 Ink          #212121     all text; fill of Inverted cards
 Accent 1     #15a89a     teal  — the loud accent (reference's pink)
-Accent 2     #3edd5c     green — the soft accent (reference's peach)
+Brand green  #2b7150     primary brand colour
 
 Card         Paper fill, 1px Ink hairline border, ~24px radius
 Buttons      full pill
 Type         Figtree — ~700 headlines, ~400 body/nav. Two weights, one family.
 ```
 
-**Rules that are not negotiable** (see ADR 0002): accents are fills only, Ink is always the text on top, never white-on-accent, never accent-as-text. The teal→green gradient appears only inside the logo disc.
+**Rules that are not negotiable** (see ADR 0002): accents are fills only, never text. Ink sits on teal; Paper sits on the darker brand green. The teal→green gradient appears only inside the logo disc.
 
 ## Routes and redirects
 

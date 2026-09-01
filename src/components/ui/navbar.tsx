@@ -2,25 +2,24 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "@/components/logo";
 import { NAV, CONTACT } from "@/data/site";
+import styles from "./navbar.module.css";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
-    <header
-      style={{
-        position: "sticky",
-        insetBlockStart: 0,
-        zIndex: 50,
-        background: "var(--paper)",
-        borderBlockEnd: "1.5px solid var(--hairline)",
-      }}
-    >
-      <div className="container">
-        <div className="flex items-center justify-between" style={{ blockSize: 76 }}>
-          <Link href="/" aria-label="myPeedika home">
+    <>
+      <header
+        className={`${styles.header} site-header`}
+        style={{ background: "transparent" }}
+      >
+        <div className={styles.wrap}>
+          <div className={styles.bar}>
+          <Link href="/" aria-label="myPeedika home" className={styles.home}>
             <Logo />
           </Link>
 
@@ -41,7 +40,7 @@ export default function Navbar() {
             href={CONTACT.whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="btn btn--ink hidden md:inline-flex"
+            className={`btn site-header__contact ${styles.contact}`}
           >
             Contact us
           </a>
@@ -75,48 +74,42 @@ export default function Navbar() {
               )}
             </svg>
           </button>
-        </div>
-      </div>
-
-      {open && (
-        <div
-          className="md:hidden"
-          style={{
-            borderBlockStart: "1.5px solid var(--hairline)",
-            background: "var(--paper)",
-          }}
-        >
-          <div className="container" style={{ paddingBlock: 20 }}>
-            <div className="flex flex-col" style={{ gap: 4 }}>
-              {NAV.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 600,
-                    letterSpacing: "-0.03em",
-                    paddingBlock: 10,
-                  }}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <a
-                href={CONTACT.whatsapp}
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn--ink"
-                style={{ marginBlockStart: 16 }}
-              >
-                Contact us
-              </a>
-            </div>
           </div>
-        </div>
-      )}
 
-    </header>
+          {open && (
+            <div className={`${styles.panel} md:hidden`}>
+              <div className="flex flex-col" style={{ gap: 4 }}>
+                {NAV.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    style={{
+                      fontSize: 22,
+                      fontWeight: 600,
+                      letterSpacing: "-0.03em",
+                      paddingBlock: 10,
+                    }}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <a
+                  href={CONTACT.whatsapp}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`btn ${styles.contact}`}
+                  style={{ marginBlockStart: 16 }}
+                  onClick={() => setOpen(false)}
+                >
+                  Contact us
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+      </header>
+      {pathname !== "/" && <div className={styles.spacer} aria-hidden="true" />}
+    </>
   );
 }

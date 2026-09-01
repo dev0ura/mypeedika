@@ -21,14 +21,16 @@
 :root {
   /* Ground */
   --paper: #fcf8f5;
+  --sand: #ead2b7;
+  --sky: #7fa4c0;
   --ink: #212121;
 
-  /* Accents — fills only. Never text. Never behind white text. */
+  /* Accents — fills only. Teal carries Ink; brand green carries Paper. */
   --teal: #15a89a;
-  --green: #3edd5c;
+  --green: #2b7150;
 
   /* Logo disc only. Not for buttons, text, or numerals. */
-  --logo-grad: linear-gradient(135deg, #15a89a 0%, #3edd5c 100%);
+  --logo-grad: linear-gradient(135deg, #15a89a 0%, #2b7150 100%);
 
   /* Derived */
   --hairline: rgba(33, 33, 33, 0.9);
@@ -106,7 +108,7 @@ svg {
 
 ::selection {
   background: var(--green);
-  color: var(--ink);
+  color: var(--paper);
 }
 
 /* ── Layout ───────────────────────────────────────────────────── */
@@ -285,10 +287,6 @@ svg {
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* The hero globe animates from script, not CSS - it re-projects real
-   geometry each frame, which no keyframe can express. It reads
-   prefers-reduced-motion itself and simply never starts. */
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -358,6 +356,7 @@ svg {
 
 .article-body a:hover {
   background: var(--green);
+  color: var(--paper);
 }
 
 .article-body blockquote {
@@ -410,6 +409,23 @@ svg {
 }
 
 /* Navbar */
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 50;
+  background: transparent;
+}
+
+.site-header__contact {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .site-header__contact {
+    display: inline-flex;
+  }
+}
+
 .nav-link {
   position: relative;
 }
@@ -438,9 +454,25 @@ svg {
 }
 
 /* Hero */
+.landing-hero {
+  padding-block: clamp(12px, 2vw, 24px) clamp(48px, 7vw, 92px);
+  background: linear-gradient(
+    180deg,
+    var(--sky) 0%,
+    #9ab5c8 10%,
+    #aec0c9 20%,
+    #c4cdcb 30%,
+    #d6d3c9 40%,
+    #e1d6c3 50%,
+    #e9d5bc 62%,
+    var(--sand) 82%,
+    var(--sand) 100%
+  );
+}
+
 .hero-grid {
   display: grid;
-  gap: clamp(24px, 4vw, 56px);
+  gap: clamp(18px, 3vw, 48px);
   align-items: center;
 }
 
@@ -453,19 +485,69 @@ svg {
 
 .hero-art {
   inline-size: 100%;
-  max-inline-size: min(560px, 100%);
+  max-inline-size: min(520px, 100%);
   margin-inline: auto;
+}
+
+.hero-shop-image {
+  inline-size: 100%;
+  block-size: auto;
+}
+
+@media (max-width: 899px) {
+  .landing-hero {
+    padding-block-end: 0;
+    background: var(--sky);
+  }
+
+  .hero-grid {
+    gap: 0;
+  }
+
+  .hero-copy {
+    padding-block-end: clamp(32px, 7vw, 56px);
+  }
+
+  .hero-art {
+    inline-size: calc(100% + 48px);
+    max-inline-size: none;
+    margin-inline: -24px;
+    background: linear-gradient(
+      180deg,
+      var(--sky) 0%,
+      #9ab5c8 10%,
+      #aec0c9 20%,
+      #c4cdcb 30%,
+      #d6d3c9 40%,
+      #e1d6c3 50%,
+      #e9d5bc 62%,
+      var(--sand) 82%,
+      var(--sand) 100%
+    );
+  }
+
+  .hero-shop-image {
+    max-inline-size: 560px;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 899px) {
+  .hero-art {
+    inline-size: calc(100% + 112px);
+    margin-inline: -56px;
+  }
 }
 
 @media (min-width: 900px) {
   .hero-grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: clamp(32px, 5vw, 72px);
+    gap: clamp(24px, 4vw, 60px);
   }
 
   .hero-art {
-    max-inline-size: 100%;
-    margin-inline: 0;
+    max-inline-size: 520px;
+    margin-inline: auto 0;
   }
 }
 
@@ -650,7 +732,7 @@ svg {
 
 .app-card__badge--live {
   background: var(--green);
-  color: var(--ink);
+  color: var(--paper);
 }
 
 .app-card__badge--soon {
