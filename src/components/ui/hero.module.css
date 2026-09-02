@@ -9,6 +9,16 @@
 }
 
 @media (min-width: 900px) {
+  .section {
+    /* Keep the opening composition inside the first screen on laptops.
+       The grid stays at its natural size and is centred in any extra height,
+       so tall displays gain breathing room without enlarging the artwork. */
+    min-block-size: 100vh;
+    min-block-size: 100svh;
+    display: grid;
+    align-items: center;
+  }
+
   .grid {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
     gap: clamp(24px, 3vw, 44px);
