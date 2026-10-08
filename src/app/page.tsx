@@ -19,12 +19,13 @@ const businessSchema = {
   "@type": "ProfessionalService",
   "@id": `${SITE.url}/#business`,
   name: SITE.name,
+  legalName: SITE.legalName,
   description:
     "Shopify store design, speed optimisation, apps, and migrations for businesses in India and the Gulf.",
   url: SITE.url,
   logo: `${SITE.url}/logo.png`,
   image: `${SITE.url}/og-image.png`,
-  telephone: "+919048814964",
+  telephone: CONTACT.tel,
   email: CONTACT.email,
   address: { "@type": "PostalAddress", addressCountry: "IN" },
   areaServed: [

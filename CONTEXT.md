@@ -1,6 +1,6 @@
 # myPeedika
 
-myPeedika builds and maintains Shopify storefronts for small and medium businesses in India and the Gulf, and sells its own Shopify-connected software. The site is a single marketing page plus a blog.
+myPeedika builds and maintains Shopify storefronts for small and medium businesses in India and the Gulf, and sells its own Shopify-connected software. The site is a single marketing page plus a blog, and the about, contact and policy pages the payment gateway (Cashfree) requires.
 
 ## Language
 

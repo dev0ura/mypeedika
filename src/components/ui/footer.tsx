@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Logo from "@/components/logo";
-import { CONTACT, SITE } from "@/data/site";
+import { CONTACT, POLICIES, SITE } from "@/data/site";
 import { services } from "@/data/services";
 import { apps } from "@/data/apps";
 
@@ -19,10 +19,16 @@ const columns = [
   {
     title: "More",
     links: [
+      { label: "About us", href: "/about" },
+      { label: "Contact us", href: "/contact" },
       { label: "Works", href: "/#works" },
       { label: "Blog", href: "/blog" },
       { label: "FAQ", href: "/#faq" },
     ],
+  },
+  {
+    title: "Legal",
+    links: POLICIES.map((p) => ({ label: p.label, href: p.href })),
   },
 ];
 
@@ -31,10 +37,10 @@ export default function Footer() {
     <footer style={{ borderBlockStart: "1.5px solid var(--hairline)" }}>
       <div className="container" style={{ paddingBlock: "56px 32px" }}>
         <div
-          className="grid md:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]"
+          className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-[minmax(0,1.4fr)_repeat(4,minmax(0,1fr))]"
           style={{ gap: 40 }}
         >
-          <div>
+          <div className="col-span-2 md:col-span-4 lg:col-span-1">
             <Logo />
             <p
               className="t-body"
@@ -107,12 +113,20 @@ export default function Footer() {
             borderBlockStart: "1.5px solid var(--hairline)",
           }}
         >
+          {/* The registered business name. Cashfree's website review checks
+              for it, so it sits on every page. */}
           <p className="micro">
-            © {new Date().getFullYear()} {SITE.name}
+            © {new Date().getFullYear()} {SITE.name} · Owned and operated by{" "}
+            {SITE.legalName}
           </p>
-          <a href={`mailto:${CONTACT.email}`} className="micro foot-link">
-            {CONTACT.email}
-          </a>
+          <div className="flex flex-wrap" style={{ columnGap: 20, rowGap: 8 }}>
+            <a href={`tel:${CONTACT.tel}`} className="micro foot-link">
+              {CONTACT.phone}
+            </a>
+            <a href={`mailto:${CONTACT.email}`} className="micro foot-link">
+              {CONTACT.email}
+            </a>
+          </div>
         </div>
       </div>
 

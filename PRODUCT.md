@@ -32,7 +32,7 @@ brand
 
 ## Key CTAs
 - Primary: "Book a free call" → https://cal.com/rabeeh0ta/mypeedika-demo
-- Secondary: "WhatsApp us" → https://wa.me/919048814964
+- Secondary: "WhatsApp us" → https://wa.me/919400108878
 
 ## Services
 New Store Setup | Store Redesign | Store Fix/Rescue | Platform Migration | Payment Setup | Ongoing Support

@@ -61,7 +61,7 @@ Permanently redirected (Next.js emits 308, which search engines treat as 301): `
 
 ## Calls to action
 
-- **Primary** — WhatsApp: `https://wa.me/919048814964`
+- **Primary** — WhatsApp: `https://wa.me/919400108878`
 - **Secondary** — booking: `https://cal.com/rabeeh0ta/mypeedika-demo`
 
 Confirmed live by the owner. No pricing anywhere on the site — a contact button instead.
